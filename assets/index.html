@@ -5,97 +5,225 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Rhikoblox</title>
 <style>
-* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html,body { margin:0; padding:0; background:#101218; color:#eef1ff; font-family:'Segoe UI',Arial,sans-serif; }
-button { font-family:inherit; cursor:pointer; }
-input,textarea { font-family:inherit; }
-.hidden { display:none !important; }
+:root{
+ --rbx-bg-primary:#191B1D; --rbx-bg-surface:#232527; --rbx-bg-elevated:#2B2D31; --rbx-border:#393B3D;
+ --rbx-green:#00B06F; --rbx-green-hover:#009E63; --rbx-text:#FFFFFF; --rbx-muted:#B8B8B8; --rbx-disabled:#606162;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--rbx-bg-primary);color:var(--rbx-text);font-family:'Plus Jakarta Sans','Inter','Gotham SSm','Segoe UI',Arial,sans-serif}
+button{font-family:inherit;cursor:pointer;color:inherit}
+input,textarea,select{font-family:inherit}
+.hidden{display:none!important}
+::-webkit-scrollbar{height:8px;width:9px}::-webkit-scrollbar-thumb{background:#45474a;border-radius:99px}::-webkit-scrollbar-track{background:transparent}
+h1.page{font-size:28px;font-weight:800;margin:6px 0 14px}
+h2.sec{font-size:19px;font-weight:800;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.mut{color:var(--rbx-muted)} .small{font-size:12.5px}
+.logomark{width:25px;height:25px;background:#e8e9ea;border-radius:5px;transform:rotate(14deg);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.logomark i{width:9px;height:9px;background:var(--rbx-bg-surface);border-radius:2px;display:block}
+.logotext{font-weight:800;font-size:19px;letter-spacing:.5px}
 /* ===== AUTH ===== */
-#auth { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; background:radial-gradient(1000px 500px at 50% -10%, #2b3f66, #101218); }
-.logo { font-size:44px; font-weight:900; letter-spacing:1px; }
-.logo .r { color:#ff4655; } .logo .b { color:#00a2ff; }
-.tagline { color:#9fb2d8; margin:4px 0 20px; font-size:14px; }
-.authcard { background:#1a1d29; border:1px solid #2e3247; border-radius:16px; padding:20px; width:100%; max-width:360px; box-shadow:0 18px 40px rgba(0,0,0,.5); }
-.authtabs { display:flex; gap:8px; margin-bottom:14px; }
-.authtabs button { flex:1; padding:11px; border-radius:10px; border:1px solid #39406b; background:#12141f; color:#aebadd; font-weight:800; }
-.authtabs button.sel { background:#00a2ff; border-color:#00a2ff; color:#fff; }
-.fld { width:100%; padding:12px; border-radius:10px; border:1.5px solid #39406b; background:#12141f; color:#fff; font-size:16px; outline:none; margin-bottom:10px; }
-.fld:focus { border-color:#00a2ff; }
-.bigbtn { width:100%; padding:13px; border:none; border-radius:11px; background:linear-gradient(180deg,#38c172,#1d9e57); color:#fff; font-size:17px; font-weight:900; box-shadow:0 4px 0 #146c3c; }
-.bigbtn:active { transform:translateY(2px); box-shadow:0 2px 0 #146c3c; }
-.authnote { color:#8d99bd; font-size:12px; text-align:center; margin-top:12px; line-height:1.5; }
-/* ===== SHELL ===== */
-#topbar { position:sticky; top:0; z-index:40; display:flex; align-items:center; gap:10px; padding:9px 12px; background:rgba(16,18,24,.96); border-bottom:1px solid #262a3d; }
-#topbar .logo { font-size:22px; }
-.robuxpill { margin-left:auto; display:flex; align-items:center; gap:6px; background:#23263a; border:1px solid #39406b; padding:6px 12px; border-radius:999px; font-weight:900; }
-.robuxpill .ric { width:18px; height:18px; border-radius:5px; background:linear-gradient(135deg,#cfd6e4,#8f9bb3); display:inline-block; transform:rotate(45deg); border:2px solid #e8edf7; }
-#avatarBtn { width:42px; height:42px; border-radius:50%; border:2px solid #00a2ff; background:#23263a; overflow:hidden; padding:0; }
-#avatarBtn svg { width:100%; height:100%; }
-#nav { position:sticky; top:60px; z-index:39; display:flex; gap:6px; padding:8px 10px; background:rgba(16,18,24,.96); border-bottom:1px solid #262a3d; }
-#nav button { flex:1; padding:9px 4px; border-radius:9px; border:1px solid #2e3247; background:#171a28; color:#aebadd; font-weight:800; font-size:13px; }
-#nav button.sel { background:#00a2ff; color:#fff; border-color:#00a2ff; }
-.view { padding:14px 12px 90px; max-width:760px; margin:0 auto; }
-h2.sec { font-size:19px; margin:16px 2px 10px; }
-/* katalog */
-.feat { position:relative; border-radius:16px; overflow:hidden; margin-bottom:12px; border:1px solid #2e3247; min-height:118px; display:flex; align-items:flex-end; }
-.feat .info { position:relative; z-index:2; padding:12px; width:100%; background:linear-gradient(0deg, rgba(0,0,0,.72), transparent); }
-.feat .t { font-size:21px; font-weight:900; } .feat .d { font-size:13px; color:#cdd7f2; }
-.playbtn { position:absolute; right:12px; bottom:12px; z-index:3; background:#00b06f; color:#fff; border:none; padding:11px 20px; border-radius:10px; font-weight:900; font-size:15px; box-shadow:0 4px 0 #087a4c; }
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:10px; }
-.tile { background:#1a1d29; border:1px solid #2e3247; border-radius:13px; overflow:hidden; text-align:left; padding:0; color:#eef1ff; }
-.tile .cover { height:78px; position:relative; display:flex; align-items:center; justify-content:center; font-size:40px; }
-.tile .nm { padding:7px 8px 2px; font-weight:800; font-size:13px; line-height:1.2; }
-.tile .ds { padding:0 8px 8px; font-size:11px; color:#8d99bd; line-height:1.3; }
-/* kartu umum */
-.card { background:#1a1d29; border:1px solid #2e3247; border-radius:14px; padding:14px; margin-bottom:12px; }
-.btn { padding:10px 16px; border-radius:10px; border:1px solid #39406b; background:#23263a; color:#eef1ff; font-weight:800; }
-.btn.blue { background:#00a2ff; border-color:#00a2ff; color:#fff; }
-.btn.green { background:#00b06f; border-color:#00b06f; color:#fff; }
-.btn.red { background:#3a1f28; border-color:#7c3040; color:#ff8b96; }
-.btn:disabled { opacity:.45; }
-/* pasar */
-.shopgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:10px; }
-.shopitem { background:#171a28; border:1px solid #2e3247; border-radius:12px; padding:10px 8px; text-align:center; }
-.shopitem .em { font-size:34px; }
-.shopitem .nm { font-weight:800; font-size:12.5px; min-height:30px; }
-.shopitem .pr { color:#ffd94d; font-weight:900; font-size:13px; margin:2px 0 7px; }
-.shopitem button { width:100%; padding:8px 4px; border-radius:8px; border:none; font-weight:900; font-size:13px; background:#00b06f; color:#fff; }
-.shopitem button.owned { background:#39406b; }
-.shopitem button.equip { background:#00a2ff; }
-.cattabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
-.cattabs button { padding:8px 13px; border-radius:999px; border:1px solid #39406b; background:#12141f; color:#aebadd; font-weight:800; font-size:13px; }
-.cattabs button.sel { background:#ffd94d; color:#221a00; border-color:#ffd94d; }
-/* teman & profil */
-.frow { display:flex; align-items:center; gap:11px; background:#171a28; border:1px solid #2e3247; border-radius:12px; padding:9px 11px; margin-bottom:8px; }
-.frow .av { width:46px; height:46px; border-radius:50%; overflow:hidden; background:#23263a; border:2px solid #39406b; flex:none; }
-.frow .av svg { width:100%; height:100%; }
-.toast { position:fixed; left:50%; bottom:26px; transform:translateX(-50%); background:#23263a; border:1px solid #39406b; color:#fff; padding:11px 18px; border-radius:999px; font-weight:800; z-index:99; box-shadow:0 10px 26px rgba(0,0,0,.5); max-width:88vw; text-align:center; }
-/* player */
-#player { position:fixed; inset:0; z-index:60; background:#0b0d13; display:flex; flex-direction:column; }
-#playerBar { display:flex; align-items:center; gap:10px; padding:9px 12px; background:#14161f; border-bottom:1px solid #262a3d; }
-#stage { flex:1; position:relative; overflow:hidden; }
-#xframe { width:100%; height:100%; border:none; background:#000; }
-.modal { position:fixed; inset:0; z-index:80; background:rgba(4,6,10,.72); display:flex; align-items:center; justify-content:center; padding:20px; }
-.modalcard { background:#1d2030; border:1px solid #39406b; border-radius:18px; padding:22px; width:100%; max-width:340px; text-align:center; box-shadow:0 22px 50px rgba(0,0,0,.6); }
+#auth{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;background:radial-gradient(900px 480px at 50% -10%,#2b2e33,var(--rbx-bg-primary))}
+.authcard{background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-radius:12px;padding:22px;width:100%;max-width:368px;box-shadow:0 18px 44px rgba(0,0,0,.55)}
+.authtabs{display:flex;gap:8px;margin-bottom:14px}
+.authtabs button{flex:1;padding:11px;border-radius:8px;border:1px solid var(--rbx-border);background:var(--rbx-bg-primary);color:var(--rbx-muted);font-weight:700}
+.authtabs button.sel{background:#fff;border-color:#fff;color:#191B1D}
+.fld{width:100%;padding:12px;border-radius:8px;border:1px solid var(--rbx-border);background:var(--rbx-bg-primary);color:#fff;font-size:15.5px;outline:none;margin-bottom:10px}
+.fld:focus{border-color:#8a8f98}
+.bigbtn{width:100%;padding:13px;border:none;border-radius:8px;background:var(--rbx-green);color:#fff;font-size:16.5px;font-weight:800}
+.bigbtn:hover{background:var(--rbx-green-hover)}
+.authnote{color:var(--rbx-muted);font-size:12px;text-align:center;margin-top:12px;line-height:1.55}
+/* ===== TOPBAR ===== */
+#topbar{position:fixed;top:0;left:0;right:0;height:48px;z-index:50;background:var(--rbx-bg-surface);border-bottom:1px solid var(--rbx-border);display:flex;align-items:center;gap:14px;padding:0 12px}
+#topbar .logotext{font-size:17px}
+.toplinks{display:flex;gap:2px}
+.toplinks button{background:none;border:none;color:var(--rbx-text);font-weight:600;font-size:14.5px;padding:7px 11px;border-radius:6px}
+.toplinks button:hover{background:var(--rbx-bg-elevated)}
+#searchWrap{flex:1;max-width:430px;margin:0 auto;position:relative}
+#searchInput{width:100%;height:34px;padding:0 12px 0 34px;border-radius:8px;border:1px solid var(--rbx-border);background:var(--rbx-bg-primary);color:#fff;font-size:14px;outline:none}
+#searchWrap .sic{position:absolute;left:10px;top:8px;font-size:15px;opacity:.75}
+#searchDrop{position:absolute;top:40px;left:0;right:0;background:var(--rbx-bg-elevated);border:1px solid var(--rbx-border);border-radius:10px;overflow:hidden;box-shadow:0 16px 34px rgba(0,0,0,.5);z-index:60}
+#searchDrop .row{padding:10px 13px;font-size:14px;display:flex;gap:9px;align-items:center;width:100%;background:none;border:none;text-align:left;color:#fff}
+#searchDrop .row:hover{background:#34373b}
+#searchDrop .row .cl{margin-left:auto;color:var(--rbx-muted);font-size:12px}
+.topbtn{position:relative;background:none;border:none;font-size:19px;padding:7px;border-radius:8px}
+.topbtn:hover{background:var(--rbx-bg-elevated)}
+.topbtn .bdg{position:absolute;top:1px;right:0;background:#ff4655;color:#fff;font-size:10px;font-weight:800;border-radius:99px;padding:1px 5px}
+#buxPill{display:flex;align-items:center;gap:7px;background:none;border:none;font-weight:800;font-size:15px;padding:7px 9px;border-radius:8px}
+#buxPill:hover{background:var(--rbx-bg-elevated)}
+.buxico{width:19px;height:19px;background:linear-gradient(135deg,#f5f6f7,#a7adb5);clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);display:inline-block;border:none}
+.buxico.sm{width:14px;height:14px}
+#userPill{display:flex;align-items:center;gap:8px;background:none;border:none;padding:4px 8px 4px 4px;border-radius:99px}
+#userPill:hover{background:var(--rbx-bg-elevated)}
+#userPill .av{width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--rbx-bg-elevated)}
+#userPill .av svg{width:100%;height:100%}
+.age{font-size:10.5px;background:#45474a;border-radius:4px;padding:1.5px 5px;font-weight:700;color:#e8e9ea}
+.drop{position:absolute;top:46px;right:0;width:250px;background:var(--rbx-bg-elevated);border:1px solid var(--rbx-border);border-radius:10px;box-shadow:0 16px 34px rgba(0,0,0,.5);z-index:61;padding:6px}
+.drop button{display:flex;width:100%;gap:9px;align-items:center;background:none;border:none;color:#fff;padding:9px 10px;border-radius:7px;font-size:14px;text-align:left}
+.drop button:hover{background:#34373b}
+.drop .nt{padding:9px 10px;font-size:13.5px;border-bottom:1px solid var(--rbx-border);line-height:1.45}
+.drop .nt:last-child{border-bottom:none}
+/* ===== LAYOUT & SIDEBAR ===== */
+#layout{display:flex;padding-top:48px;min-height:100vh}
+#sidebar{width:190px;flex:none;background:var(--rbx-bg-primary);padding:14px 10px;position:fixed;top:48px;bottom:0;overflow-y:auto}
+#sidebar .me{display:flex;gap:9px;align-items:center;padding:7px 8px;border-radius:9px;width:100%;background:none;border:none;text-align:left;color:#fff}
+#sidebar .me:hover{background:var(--rbx-bg-elevated)}
+#sidebar .me .av{width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--rbx-bg-elevated);flex:none}
+#sidebar .me .av svg{width:100%;height:100%}
+.slink{display:flex;align-items:center;gap:11px;width:100%;padding:9px;border-radius:9px;background:none;border:none;color:var(--rbx-text);font-size:14.5px;font-weight:600;text-align:left}
+.slink:hover{background:var(--rbx-bg-elevated)} .slink.sel{background:var(--rbx-bg-elevated)}
+.slink .cnt{margin-left:auto;font-size:11.5px;color:var(--rbx-muted);font-weight:700}
+.slink .bdg{background:#ff4655;color:#fff;font-size:10.5px;font-weight:800;border-radius:99px;padding:1px 6px;margin-left:auto}
+.cta{margin-top:16px;width:100%;padding:11px;border:none;border-radius:9px;background:#fff;color:#191B1D;font-weight:800;font-size:14px}
+#main{flex:1;margin-left:190px;padding:18px 22px 110px;min-width:0}
+#view{max-width:1060px;margin:0 auto}
+#tabbar{display:none}
+/* ===== FRIENDS ROW ===== */
+.frow-scroll{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 10px}
+.friendbubble{width:76px;flex:none;text-align:center;background:none;border:none;color:#fff;padding:0}
+.friendbubble .avw{position:relative;width:64px;height:64px;margin:0 auto}
+.friendbubble .av{width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--rbx-bg-elevated);border:2px solid var(--rbx-border)}
+.friendbubble .av svg{width:100%;height:100%}
+.friendbubble .dot{position:absolute;right:1px;bottom:2px;width:14px;height:14px;border-radius:50%;border:2.5px solid var(--rbx-bg-primary)}
+.friendbubble .nm{font-size:12px;font-weight:600;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.friendbubble .st{font-size:10.5px;color:var(--rbx-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.addbubble .av{display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--rbx-muted);border-style:dashed}
+/* ===== KAROUSEL & TILE ===== */
+.carwrap{position:relative}
+.car{display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;padding:3px 2px 10px;scrollbar-width:none}
+.car::-webkit-scrollbar{display:none}
+.carbtn{position:absolute;top:38%;z-index:5;width:34px;height:34px;border-radius:50%;border:1px solid var(--rbx-border);background:rgba(35,37,39,.92);color:#fff;font-size:17px}
+.carbtn.l{left:-8px}.carbtn.r{right:-8px}
+.seeall{margin-left:auto;font-size:13px;color:var(--rbx-muted);background:none;border:none;font-weight:700}
+.tile1{width:158px;flex:none;background:none;border:none;text-align:left;color:#fff;padding:0}
+.tile1 .th{width:158px;height:158px;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:transform .18s}
+.tile1:hover .th{transform:scale(1.045)}
+.tile1 .th .big{font-size:64px;filter:drop-shadow(0 5px 8px rgba(0,0,0,.5))}
+.tile1 .th .ghost{position:absolute;right:-10px;bottom:-18px;font-size:88px;opacity:.15}
+.tile1 .nm{font-weight:700;font-size:14.5px;line-height:1.25;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
+.tile1 .stats{display:flex;justify-content:space-between;color:var(--rbx-muted);font-size:12.5px;font-weight:600;margin-top:1px}
+.tile169{width:264px;flex:none;background:none;border:none;text-align:left;color:#fff;padding:0}
+.tile169 .th{width:264px;height:148px;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:transform .18s}
+.tile169:hover .th{transform:scale(1.03)}
+.tile169 .th .big{font-size:72px;filter:drop-shadow(0 5px 8px rgba(0,0,0,.5))}
+.tile169 .nm{font-weight:700;font-size:15px;margin-top:7px}
+.tile169 .stats{display:flex;gap:14px;color:var(--rbx-muted);font-size:12.5px;font-weight:600}
+.gridtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.gridtiles .tile1{width:auto}.gridtiles .tile1 .th{width:100%;height:auto;aspect-ratio:1}
+.chipf{padding:7px 14px;border-radius:999px;border:1px solid var(--rbx-border);background:var(--rbx-bg-surface);color:var(--rbx-muted);font-weight:700;font-size:13px}
+.chipf.sel{background:#fff;color:#191B1D;border-color:#fff}
+/* ===== DETAIL ===== */
+.det{display:grid;grid-template-columns:1.9fr 1fr;gap:20px}
+.detbanner{border-radius:10px;aspect-ratio:16/9;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.detbanner .big{font-size:110px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+.detbanner .shine{position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 45%,transparent 60%);animation:shn 3.2s infinite}
+@keyframes shn{0%{transform:translateX(-70%)}60%,100%{transform:translateX(70%)}}
+.playbtn{width:100%;height:52px;border:none;border-radius:8px;background:var(--rbx-green);color:#fff;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}
+.playbtn:hover{background:var(--rbx-green-hover)}
+.actrow{display:flex;gap:8px;margin-top:11px}
+.actbtn{flex:1;padding:9px 4px;border-radius:8px;border:1px solid var(--rbx-border);background:var(--rbx-bg-surface);color:#fff;font-weight:700;font-size:13px}
+.actbtn.on{border-color:#ffd94d;color:#ffd94d}
+.actbtn.up.on{border-color:var(--rbx-green);color:#4fe07a}
+.actbtn.dn.on{border-color:#ff4655;color:#ff8b96}
+.subtabs{display:flex;gap:4px;border-bottom:1px solid var(--rbx-border);margin:20px 0 14px}
+.subtabs button{background:none;border:none;color:var(--rbx-muted);font-weight:700;font-size:15px;padding:9px 14px;border-bottom:2.5px solid transparent}
+.subtabs button.sel{color:#fff;border-bottom-color:#fff}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1px;background:var(--rbx-border);border:1px solid var(--rbx-border);border-radius:10px;overflow:hidden;margin-top:12px}
+.statgrid>div{background:var(--rbx-bg-surface);padding:11px 13px}
+.statgrid .k{font-size:11.5px;color:var(--rbx-muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.statgrid .v{font-weight:800;font-size:15px;margin-top:2px}
+.passrow,.srvrow{display:flex;align-items:center;gap:12px;background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-radius:10px;padding:11px 13px;margin-bottom:9px}
+.passrow .ic{font-size:30px}
+.btn{padding:9px 16px;border-radius:8px;border:1px solid var(--rbx-border);background:var(--rbx-bg-elevated);color:#fff;font-weight:700;font-size:14px}
+.btn.green{background:var(--rbx-green);border-color:var(--rbx-green)} .btn.green:hover{background:var(--rbx-green-hover)}
+.btn.white{background:#fff;color:#191B1D;border-color:#fff}
+.btn.red{background:#3a1f28;border-color:#7c3040;color:#ff8b96}
+.btn:disabled{opacity:.45}
+.card{background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-radius:10px;padding:15px;margin-bottom:12px}
+/* ===== PASAR / INVENTORY ===== */
+.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.shopitem{background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-radius:10px;padding:13px 10px;text-align:center}
+.shopitem .em{font-size:40px}
+.shopitem .nm{font-weight:700;font-size:13.5px;min-height:34px}
+.shopitem .pr{color:#ffd94d;font-weight:800;font-size:13.5px;margin:3px 0 8px;display:flex;align-items:center;justify-content:center;gap:5px}
+.shopitem button{width:100%;padding:9px 4px;border-radius:8px;border:none;font-weight:800;font-size:13.5px;background:var(--rbx-green);color:#fff}
+.shopitem button.owned{background:var(--rbx-bg-elevated);border:1px solid var(--rbx-border)}
+.cattabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+/* ===== PLAYER / HUD / ESC ===== */
+#player{position:fixed;inset:0;z-index:70;background:#0b0c0e;display:flex;flex-direction:column}
+#stage{flex:1;position:relative;overflow:hidden;background:#0b0c0e}
+#xframe{width:100%;height:100%;border:none;background:#000}
+#loadScr{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;background:#141518}
+#loadScr .spin{animation:spn 1.1s linear infinite}
+@keyframes spn{to{transform:rotate(360deg)}}
+#unibar{position:absolute;top:10px;left:10px;z-index:15;display:flex;gap:5px;background:rgba(17,18,22,.75);border-radius:99px;padding:5px;backdrop-filter:blur(3px)}
+#unibar button{width:38px;height:38px;border-radius:50%;border:none;background:transparent;color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center}
+#unibar button:hover{background:rgba(255,255,255,.14)}
+#board{position:absolute;top:10px;right:10px;z-index:15;width:218px;background:rgba(17,18,22,.78);border-radius:10px;padding:9px 11px;backdrop-filter:blur(3px);font-size:13px}
+#board .h{font-weight:800;font-size:12px;color:var(--rbx-muted);letter-spacing:.5px;margin-bottom:6px}
+#board .pr{display:flex;align-items:center;gap:7px;padding:2.5px 0}
+#board .pr .av{width:22px;height:22px;border-radius:50%;overflow:hidden;flex:none;background:#333}
+#board .pr .av svg{width:100%;height:100%}
+#board .pr .sc{margin-left:auto;font-weight:800;color:#ffd94d}
+#chatPanel{position:absolute;top:60px;left:10px;z-index:15;width:272px;max-width:78vw;background:rgba(17,18,22,.82);border-radius:10px;padding:9px;backdrop-filter:blur(3px)}
+#chatLog{height:128px;overflow-y:auto;font-size:12.5px;line-height:1.5;margin-bottom:7px}
+#chatLog .sys{color:#ffd94d} #chatLog b{color:#8fd0ff}
+#escMenu{position:absolute;inset:0;z-index:30;background:rgba(12,13,15,.82);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px}
+.esccard{background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-radius:12px;width:100%;max-width:520px;max-height:92%;display:flex;flex-direction:column;overflow:hidden}
+.escbtns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;padding:13px}
+.escbtns button{padding:13px 6px;border-radius:9px;border:1px solid var(--rbx-border);background:var(--rbx-bg-elevated);color:#fff;font-weight:800;font-size:13.5px}
+.setrow{display:flex;align-items:center;gap:10px;padding:10px 15px;border-bottom:1px solid var(--rbx-border);font-size:14px}
+.setrow .ctl{margin-left:auto}
+input[type=range]{accent-color:var(--rbx-green)}
+.switch{width:46px;height:25px;border-radius:99px;background:#45474a;border:none;position:relative}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:#fff;transition:.15s}
+.switch.on{background:var(--rbx-green)} .switch.on::after{left:24px}
+/* ===== MODAL & CHAT WIDGET ===== */
+.modal{position:fixed;inset:0;z-index:90;background:rgba(5,6,8,.72);display:flex;align-items:center;justify-content:center;padding:18px}
+.modalcard{background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-radius:12px;padding:20px;width:100%;max-width:360px;text-align:center;box-shadow:0 22px 50px rgba(0,0,0,.6)}
+#chatWidget{position:fixed;right:14px;bottom:0;z-index:55;width:302px;max-width:calc(100vw - 20px)}
+#chatBar{width:100%;padding:11px 14px;background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-bottom:none;border-radius:10px 10px 0 0;color:#fff;font-weight:800;text-align:left;display:flex;align-items:center;gap:8px}
+#chatPanelW{background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);height:342px;display:flex;flex-direction:column}
+#chatPanelW .msgs{flex:1;overflow-y:auto;padding:10px;font-size:13.5px;line-height:1.45}
+.msgb{max-width:82%;padding:7px 10px;border-radius:11px;margin-bottom:6px;width:fit-content}
+.msgb.me{background:#0b5cad;margin-left:auto} .msgb.fr{background:var(--rbx-bg-elevated)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--rbx-bg-elevated);border:1px solid var(--rbx-border);color:#fff;padding:11px 18px;border-radius:9px;font-weight:700;z-index:120;box-shadow:0 10px 26px rgba(0,0,0,.5);max-width:88vw;text-align:center;font-size:14px}
+.prow{display:flex;align-items:center;gap:11px;background:var(--rbx-bg-surface);border:1px solid var(--rbx-border);border-radius:10px;padding:9px 12px;margin-bottom:8px}
+.prow .av{width:46px;height:46px;border-radius:50%;overflow:hidden;background:var(--rbx-bg-elevated);border:2px solid var(--rbx-border);flex:none}
+.prow .av svg{width:100%;height:100%}
+/* ===== RESPONSIVE ===== */
+@media (max-width:860px){
+ .toplinks{display:none}
+ #sidebar{display:none}
+ #main{margin-left:0;padding:14px 12px 96px}
+ #tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--rbx-bg-surface);border-top:1px solid var(--rbx-border)}
+ #tabbar button{flex:1;background:none;border:none;color:var(--rbx-muted);font-size:19px;padding:7px 0 9px}
+ #tabbar button.sel{color:#fff}
+ #tabbar button span{display:block;font-size:10px;font-weight:700;margin-top:1px}
+ .det{grid-template-columns:1fr}
+ #chatWidget{bottom:56px}
+ #userPill .nmw{display:none}
+ .tile1{width:132px}.tile1 .th{width:132px;height:132px}
+ .tile169{width:224px}.tile169 .th{width:224px;height:126px}
+}
 </style>
 </head>
 <body>
 
 <!-- ================= AUTH ================= -->
 <div id="auth">
-  <div class="logo"><span class="r">RHIKO</span><span class="b">BLOX</span></div>
-  <div class="tagline">Mainkan 52 game seru, kumpulkan Robux, dandani avatarmu!</div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span class="logomark"><i></i></span><span class="logotext" style="font-size:27px">RHIKOBLOX</span></div>
+  <div class="mut" style="margin-bottom:20px;font-size:14px">Mainkan 52 game seru, kumpulkan Rhikobux, dandani avatarmu!</div>
   <div class="authcard">
     <div class="authtabs">
       <button id="tab-login" class="sel" onclick="authTab('login')">MASUK</button>
       <button id="tab-signup" onclick="authTab('signup')">DAFTAR</button>
     </div>
     <div id="form-signup" class="hidden">
-      <input class="fld" id="su-user" placeholder="Username (untuk login, tidak bisa diganti gratis)" maxlength="16" autocomplete="off">
-      <input class="fld" id="su-display" placeholder="Display name (nama tampilan, bisa diganti kapan saja)" maxlength="20" autocomplete="off">
+      <input class="fld" id="su-user" placeholder="Username (nama login — ganti = 1.000 Rhikobux)" maxlength="16" autocomplete="off">
+      <input class="fld" id="su-display" placeholder="Display name (bisa diganti kapan saja, gratis)" maxlength="20" autocomplete="off">
       <input class="fld" id="su-pass" type="password" placeholder="Password">
       <button class="bigbtn" onclick="doSignup()">DAFTAR & MAIN</button>
-      <div class="authnote">Username adalah nama aslimu di Rhikoblox.<br>Menggantinya nanti berharga <b>1.000 Robux</b> — pilih yang bagus!</div>
+      <div class="authnote">Username adalah nama aslimu di Rhikoblox.<br>Menggantinya nanti berharga <b>1.000 Rhikobux</b> — pilih yang bagus!</div>
     </div>
     <div id="form-login">
       <input class="fld" id="li-user" placeholder="Username" maxlength="16" autocomplete="off">
@@ -108,58 +236,145 @@ h2.sec { font-size:19px; margin:16px 2px 10px; }
 
 <!-- ================= APP ================= -->
 <div id="app" class="hidden">
-  <div id="topbar">
-    <div class="logo"><span class="r">RHIKO</span><span class="b">BLOX</span></div>
-    <div class="robuxpill"><span class="ric"></span><span id="robuxAmt">0</span></div>
-    <button id="avatarBtn" onclick="showView('profile')" title="Profil"></button>
+  <header id="topbar">
+    <div style="display:flex;align-items:center;gap:8px"><span class="logomark"><i></i></span><span class="logotext">RHIKOBLOX</span></div>
+    <nav class="toplinks">
+      <button onclick="showPage('charts')">Charts</button>
+      <button onclick="showPage('market')">Marketplace</button>
+      <button onclick="showPage('create')">Create</button>
+      <button onclick="openBux()">Rhikobux</button>
+    </nav>
+    <div id="searchWrap">
+      <span class="sic">🔍</span>
+      <input id="searchInput" placeholder="Search" autocomplete="off" oninput="onSearch(this.value)" onfocus="onSearch(this.value)">
+      <div id="searchDrop" class="hidden"></div>
+    </div>
+    <button id="buxPill" onclick="openBux()" title="Rhikobux"><span class="buxico"></span><span id="buxAmt">0</span></button>
+    <div style="position:relative">
+      <button class="topbtn" onclick="toggleDrop('notif')" title="Notifikasi">🔔<span class="bdg hidden" id="notifBdg">0</span></button>
+      <div id="notifDrop" class="drop hidden"></div>
+    </div>
+    <div style="position:relative">
+      <button class="topbtn" onclick="toggleDrop('gear')" title="Pengaturan">⚙️</button>
+      <div id="gearDrop" class="drop hidden">
+        <button onclick="openSettings()">⚙️ Settings</button>
+        <button onclick="toast('Quick Login: kamu sudah masuk sebagai @' + me().user)">🔑 Quick Login</button>
+        <button onclick="toast('Help & Safety: main yang sopan, jangan bagikan password ke siapa pun ya!')">🛡️ Help & Safety</button>
+        <button onclick="logout()">🚪 Switch Account / Logout</button>
+      </div>
+    </div>
+    <button id="userPill" onclick="showPage('profile')"><span class="av" id="pillAv"></span><span class="nmw" id="pillName" style="font-weight:700;font-size:14px"></span><span class="age">13+</span></button>
+  </header>
+
+  <div id="layout">
+    <aside id="sidebar"></aside>
+    <main id="main"><div id="view"></div></main>
   </div>
-  <div id="nav">
-    <button id="nav-home" class="sel" onclick="showView('home')">🏠 Beranda</button>
-    <button id="nav-market" onclick="showView('market')">🛒 Pasar</button>
-    <button id="nav-avatar" onclick="showView('avatar')">🧍 Avatar</button>
-    <button id="nav-friends" onclick="showView('friends')">👥 Teman</button>
+  <nav id="tabbar">
+    <button id="tb-home" onclick="showPage('home')">🏠<span>Home</span></button>
+    <button id="tb-charts" onclick="showPage('charts')">🧭<span>Charts</span></button>
+    <button id="tb-avatar" onclick="showPage('avatar')">🧍<span>Avatar</span></button>
+    <button id="tb-friends" onclick="showPage('friends')">👥<span>Friends</span></button>
+    <button id="tb-profile" onclick="showPage('profile')">👤<span>Profile</span></button>
+  </nav>
+
+  <!-- Chat widget kanan bawah -->
+  <div id="chatWidget" class="hidden">
+    <button id="chatBar" onclick="toggleChatW()">💬 Chat <span id="chatBdg" class="hidden" style="background:#ff4655;border-radius:99px;font-size:11px;padding:1px 7px">0</span><span style="margin-left:auto">▴</span></button>
+    <div id="chatPanelW" class="hidden">
+      <div id="chatWList" style="overflow-y:auto"></div>
+      <div id="chatWConv" class="hidden" style="display:flex;flex-direction:column;height:100%">
+        <div style="padding:8px 10px;border-bottom:1px solid var(--rbx-border);display:flex;gap:8px;align-items:center"><button class="btn" style="padding:4px 10px" onclick="backChatW()">‹</button><b id="chatWName"></b></div>
+        <div class="msgs" id="chatWMsgs" style="flex:1;overflow-y:auto;padding:10px"></div>
+        <div style="display:flex;gap:6px;padding:8px;border-top:1px solid var(--rbx-border)"><input class="fld" id="chatWIn" placeholder="Ketik pesan…" style="margin:0;flex:1;padding:9px" onkeydown="if(event.key==='Enter')sendChatW()"><button class="btn green" onclick="sendChatW()">Kirim</button></div>
+      </div>
+    </div>
   </div>
-  <div id="view-home" class="view"></div>
-  <div id="view-market" class="view hidden"></div>
-  <div id="view-avatar" class="view hidden"></div>
-  <div id="view-friends" class="view hidden"></div>
-  <div id="view-profile" class="view hidden"></div>
 </div>
 
 <!-- ================= PLAYER ================= -->
 <div id="player" class="hidden">
-  <div id="playerBar">
-    <button class="btn" onclick="closePlayer()">⬅ Kembali</button>
-    <b id="playerTitle" style="font-size:16px"></b>
-    <span id="playerScore" style="margin-left:auto;color:#ffd94d;font-weight:900"></span>
+  <div id="stage">
+    <div id="loadScr" class="hidden">
+      <div style="position:absolute;inset:0;opacity:.25" id="loadBg"></div>
+      <span class="logomark spin" style="width:52px;height:52px;border-radius:10px"><i style="width:19px;height:19px"></i></span>
+      <div id="loadTitle" style="font-size:21px;font-weight:800;position:relative"></div>
+      <div class="mut" style="position:relative">Joining Server...</div>
+    </div>
+    <div id="unibar" class="hidden">
+      <button onclick="toggleEsc(true)" title="Menu (ESC)"><span class="logomark" style="width:21px;height:21px;border-radius:4px"><i style="width:8px;height:8px"></i></span></button>
+      <button onclick="toggleGameChat()" title="Chat">💬</button>
+      <button onclick="leaveGame()" title="Keluar">🚪</button>
+    </div>
+    <div id="board" class="hidden"></div>
+    <div id="chatPanel" class="hidden">
+      <div id="chatLog"></div>
+      <div style="display:flex;gap:6px"><input class="fld" id="gchatIn" placeholder="Chat di sini…" style="margin:0;flex:1;padding:8px;font-size:13px" onkeydown="if(event.key==='Enter')sendGameChat()"><button class="btn green" style="padding:7px 12px" onclick="sendGameChat()">➤</button></div>
+    </div>
+    <div id="escMenu" class="hidden"></div>
   </div>
-  <div id="stage"></div>
 </div>
 
+<!-- ================= MODALS ================= -->
+<div id="buyModal" class="modal hidden"><div class="modalcard" id="buyCard"></div></div>
+<div id="buxModal" class="modal hidden"><div class="modalcard" id="buxCard" style="max-width:400px;text-align:left"></div></div>
+<div id="inspectModal" class="modal hidden"><div class="modalcard" id="inspectCard"></div></div>
 <div id="resultModal" class="modal hidden">
   <div class="modalcard">
     <div style="font-size:40px">🏆</div>
     <h3 id="resTitle" style="margin:8px 0 4px">Selesai!</h3>
-    <p id="resText" style="color:#aebadd;margin:4px 0 14px"></p>
+    <p id="resText" class="mut" style="margin:4px 0 14px"></p>
     <button class="btn green" style="width:100%;margin-bottom:8px" onclick="replayGame()">🔁 Main Lagi</button>
-    <button class="btn" style="width:100%" onclick="closeResult()">Kembali ke Beranda</button>
+    <button class="btn" style="width:100%" onclick="closeResult()">Kembali</button>
   </div>
 </div>
-
 <div id="toast" class="toast hidden"></div>
+<script src="games_a.js"></script>
+<script src="games_b.js"></script>
+<script src="games_c.js"></script>
 <script>
-/* ================= DATA ================= */
+/* ================================================================
+   RHIKOBLOX v2 — Builder Dark UI 1:1
+   50 mini-game TIDAK diubah sama sekali (games_a/b/c.js utuh).
+   Platform dibungkus ulang: metadata experience, Home/Charts/Detail,
+   HUD in-game + menu ESC, pasar, profil, teman, chat.
+   ================================================================ */
+const $ = id => document.getElementById(id);
+const RGAMES = window.RGAMES = window.RGAMES || [];
 const DB_KEY = 'rhiko_db_v1';
-function hash(s){ let h1=0xdeadbeef^0, h2=0x41c6ce57^0; const str=String(s); for(let i=0;i<str.length;i++){ const ch=str.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677);} h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909); h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909); return (h2>>>0).toString(16)+'.'+(h1>>>0).toString(16); }
-function loadDB(){ try { return JSON.parse(localStorage.getItem(DB_KEY)) || { accounts:{}, session:null }; } catch(e){ return { accounts:{}, session:null }; } }
+function loadDB(){ try{ return JSON.parse(localStorage.getItem(DB_KEY)) || {accounts:{}, session:null}; }catch(e){ return {accounts:{}, session:null}; } }
 function saveDB(){ localStorage.setItem(DB_KEY, JSON.stringify(DB)); }
+function migrateAcc(a){
+  a.recent = a.recent || []; a.favs = a.favs || []; a.votes = a.votes || {}; a.passes = a.passes || {};
+  a.notifs = a.notifs || null; a.chats = a.chats || {}; a.unread = a.unread || {};
+  a.settings = a.settings || {graphics:7, volume:80, shift:false, cam:'Klasik'};
+  a.groupsJoined = a.groupsJoined || ['Raka-Craft Official'];
+  if(!a.inv) a.inv = ['hair_cepak','face_senyum','outfit_biru'];
+  if(!a.eq) a.eq = defaultEq();
+  a.friends = (a.friends || []).map(f => typeof f === 'string' ? { display: f, user: f.toLowerCase().replace(/\s+/g, '_'), avatar: null } : f);
+  if(typeof a.lastDaily === 'string'){ const parts = a.lastDaily.split('-').map(Number); a.lastDaily = parts.length === 3 && parts[0] > 2000 ? new Date(parts[0], parts[1] - 1, parts[2]).getTime() : 0; }
+  if(a.followers == null) a.followers = 40 + (hashStr(a.user) % 300);
+  if(a.following == null) a.following = 3 + (hashStr(a.user + 'f') % 18);
+  if(!a.notifs) a.notifs = [
+    {t:'🎉 Selamat datang di Rhikoblox v2! Tampilan baru persis Roblox — coba buka Charts!', read:false},
+    {t:'💡 Bonus harian: pencet tombol Klaim di Home buat +100 Rhikobux tiap hari.', read:false}];
+  return a;
+}
 let DB = loadDB();
+Object.values(DB.accounts).forEach(migrateAcc);
 function me(){ return DB.session ? DB.accounts[DB.session] : null; }
-function toast(msg, ms){ const t = document.getElementById('toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(t._h); t._h = setTimeout(()=>t.classList.add('hidden'), ms||2400); }
-function fmt(n){ return Math.floor(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
-function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
-function seedFrom(str){ let h=2166136261; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
-
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function hash(s){ let h1=0xdeadbeef^0, h2=0x41c6ce57^0; const str=String(s); for(let i=0;i<str.length;i++){ const ch=str.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677);} h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909); h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909); return (h2>>>0).toString(16)+'.'+(h1>>>0).toString(16); }
+function seedFrom(s){ return hashStr(String(s)); }
+let raceState = null, raceRAF = null, playEnded = false;
+function friendData(name){ const a = me(); const f = a ? a.friends.find(x => x.display === name || x.user === name) : null; const acc = f ? DB.accounts[f.user] : null; return { display: f ? f.display : name, eq: acc ? acc.eq : (f && f.avatar) || fakeAvatarFor(name) }; }
+function hashStr(s){ let h = 2166136261; for(let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return Math.abs(h); }
+function fmtK(n){ if(n >= 1e6) return (n / 1e6).toFixed(1).replace('.0','') + 'M'; if(n >= 1e3) return (n / 1e3).toFixed(1).replace('.0','') + 'K'; return '' + n; }
+let toastT = null;
+function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hidden'), 2600); }
+function buxIcon(cls){ return '<span class="buxico ' + (cls || '') + '"></span>'; }
+function setBux(v){ const a = me(); a.robux = Math.max(0, Math.floor(v)); $('buxAmt').textContent = a.robux.toLocaleString('id-ID'); saveDB(); }
+function addBux(n){ setBux(me().robux + n); }
 /* ================= KATALOG ITEM AVATAR ================= */
 const CATS = [ ['hair','💇 Rambut'], ['face','🙂 Wajah'], ['outfit','👕 Baju'], ['hat','🎩 Topi'], ['acc','✨ Aksesoris'] ];
 const ITEMS = [
@@ -183,7 +398,7 @@ const ITEMS = [
  {id:'outfit_koki', cat:'outfit', name:'Baju Koki', price:250, em:'👨‍🍳', c1:'#eef0f4', c2:'#33415e', pat:'kancing'},
  {id:'outfit_emas', cat:'outfit', name:'Setelan Emas', price:500, em:'👑', c1:'#e8b62a', c2:'#8a6a10', pat:'garis'},
  {id:'outfit_pelangi', cat:'outfit', name:'Pelangi Ceria', price:750, em:'🌈', c1:'#b45cff', c2:'#2f6fd0', pat:'pelangi'},
- {id:'hat_topi', cat:'hat', name:'Topi Merah', price:100, em:'🧢', style:'topi', col:'#d23434'},
+ {id:'hat_topi', cat:'hat', name:'Topi Merah', price:100, em:'🧢', style:'hair', col:'#d23434'},
  {id:'hat_pesta', cat:'hat', name:'Topi Pesta', price:60, em:'🎉', style:'pesta', col:'#ff8c1a'},
  {id:'hat_kucing', cat:'hat', name:'Telinga Kucing', price:200, em:'🐱', style:'kucing', col:'#ff9ecb'},
  {id:'hat_helm', cat:'hat', name:'Helm Pembalap', price:350, em:'🏍️', style:'helm', col:'#2f6fd0'},
@@ -243,7 +458,7 @@ function avatarSVG(eq, seedName){
   if (hair.style==='mohawk') s += '<path d="M54 26 L54 2 L66 2 L66 26 Q60 20 54 26Z" fill="'+hc+'"/><rect x="38" y="16" width="44" height="6" fill="'+skin+'"/>';
   /* topi */
   if (hat){
-    if (hat.style==='topi') s += '<path d="M36 16 Q60 0 84 16 L84 20 L36 20 Z" fill="'+hat.col+'"/><rect x="30" y="19" width="60" height="5" rx="2.5" fill="'+hat.col+'"/>';
+    if (hat.style==='hair') s += '<path d="M36 16 Q60 0 84 16 L84 20 L36 20 Z" fill="'+hat.col+'"/><rect x="30" y="19" width="60" height="5" rx="2.5" fill="'+hat.col+'"/>';
     if (hat.style==='pesta') s += '<path d="M48 18 L60 -6 L72 18 Z" fill="'+hat.col+'"/><circle cx="60" cy="-6" r="4" fill="#ffd94d"/>';
     if (hat.style==='kucing') s += '<path d="M40 14 L44 0 L54 10 Z" fill="'+hat.col+'"/><path d="M80 14 L76 0 L66 10 Z" fill="'+hat.col+'"/><path d="M43 11 L45 4 L51 9 Z" fill="#fff"/><path d="M77 11 L75 4 L69 9 Z" fill="#fff"/>';
     if (hat.style==='helm') s += '<path d="M36 24 Q36 4 60 4 Q84 4 84 24 L84 28 L36 28 Z" fill="'+hat.col+'"/><rect x="44" y="16" width="32" height="8" rx="4" fill="#bfe6ff" opacity=".85"/>';
@@ -264,237 +479,741 @@ function fakeAvatarFor(name){ /* avatar untuk pemain simulasi dari nama */
 }
 
 /* ================= AUTH ================= */
-function authTab(t){
-  document.getElementById('tab-login').classList.toggle('sel', t==='login');
-  document.getElementById('tab-signup').classList.toggle('sel', t==='signup');
-  document.getElementById('form-login').classList.toggle('hidden', t!=='login');
-  document.getElementById('form-signup').classList.toggle('hidden', t!=='signup');
+let authMode = 'login';
+function authTab(m){
+  authMode = m;
+  $('tab-login').classList.toggle('sel', m === 'login');
+  $('tab-signup').classList.toggle('sel', m === 'signup');
+  $('form-login').classList.toggle('hidden', m !== 'login');
+  $('form-signup').classList.toggle('hidden', m !== 'signup');
 }
-function validUser(u){ return /^[a-zA-Z0-9_]{3,16}$/.test(u); }
 function doSignup(){
-  const u = document.getElementById('su-user').value.trim();
-  const d = document.getElementById('su-display').value.trim() || u;
-  const p = document.getElementById('su-pass').value;
-  if (!validUser(u)) return toast('Username 3-16 huruf/angka/underscore ya');
-  if (DB.accounts[u.toLowerCase()]) return toast('Username sudah dipakai orang lain 😢');
-  if (p.length < 4) return toast('Password minimal 4 karakter');
-  DB.accounts[u.toLowerCase()] = { user:u, pass:hash('rhiko:'+p), display:d, bio:'', robux:100, inv:['hair_cepak','face_senyum','outfit_biru'], eq:defaultEq(), friends:[], plays:0, created:todayStr(), lastDaily:'' };
-  DB.session = u.toLowerCase(); saveDB();
-  toast('Selamat datang di Rhikoblox, ' + d + '! 🎉 Kamu dapat 100 Robux pembuka.');
-  enterApp();
+  const user = $('su-user').value.trim().toLowerCase(), disp = $('su-display').value.trim(), pass = $('su-pass').value;
+  if(user.length < 3) return toast('Username minimal 3 huruf ya.');
+  if(!/^[a-z0-9_]+$/.test(user)) return toast('Username cuma boleh huruf, angka, dan garis bawah (_).');
+  if(DB.accounts[user]) return toast('Username itu sudah dipakai. Coba nama lain!');
+  if(!disp) return toast('Isi display name dulu ya.');
+  if(pass.length < 4) return toast('Password minimal 4 karakter.');
+  DB.accounts[user] = migrateAcc({
+    user, display: disp, pass: hash('rhiko:' + pass), robux: 100, created: Date.now(), lastDaily: 0, plays: 0,
+    inv: ['hair_cepak','face_senyum','outfit_biru'], eq: defaultEq(), friends: [], bio: '',
+  });
+  DB.session = user; saveDB(); enterApp(); toast('Akun dibuat! Kamu dapat 100 Rhikobux pembuka 🎉');
 }
 function doLogin(){
-  const u = document.getElementById('li-user').value.trim().toLowerCase();
-  const p = document.getElementById('li-pass').value;
-  const a = DB.accounts[u];
-  if (!a) return toast('Akun tidak ditemukan. Daftar dulu yuk!');
-  if (a.pass !== hash('rhiko:'+p)) return toast('Password salah 😖');
-  DB.session = u; saveDB(); enterApp();
+  const user = $('li-user').value.trim().toLowerCase(), pass = $('li-pass').value;
+  const a = DB.accounts[user];
+  if(!a) return toast('Akun tidak ditemukan. Pencet tab DAFTAR buat bikin akun.');
+  if(a.pass !== hash('rhiko:' + pass)) return toast('Password salah!');
+  DB.session = user; saveDB(); enterApp();
 }
-function logout(){ DB.session = null; saveDB(); document.getElementById('app').classList.add('hidden'); document.getElementById('auth').classList.remove('hidden'); }
-function enterApp(){
-  document.getElementById('auth').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  refreshTop(); showView('home');
+function logout(){ DB.session = null; saveDB(); location.reload(); }
+
+/* ================= METADATA 52 EXPERIENCE ================= */
+const GENRE = { snake:'Klasik', flappy:'Arcade', g2048:'Puzzle', memory:'Puzzle', tictactoe:'Klasik', breakout:'Arcade', blockfall:'Puzzle', mines:'Puzzle', whack:'Arcade', reflex:'Arcade', mathquiz:'Edukasi', stack:'Obby & Platformer', runner:'Obby & Platformer', pong:'Klasik', simon:'Klasik', clickrace:'Simulator', dodge:'Obby & Platformer',
+ fishing:'Simulator', balloon:'Arcade', slidepuzzle:'Puzzle', flagquiz:'Edukasi', dino:'Obby & Platformer', fruitcatch:'Arcade', rps:'Klasik', typing:'Edukasi', maze:'Petualangan', archery:'Aksi', fruitslice:'Aksi', dicerace:'Klasik', zombie:'Aksi', parking:'Simulator', airhockey:'Olahraga', golf:'Olahraga', bowling:'Olahraga',
+ hanoi:'Puzzle', sudoku4:'Puzzle', unscramble:'Edukasi', animalquiz:'Edukasi', piano:'Ritme', colorswitch:'Obby & Platformer', shooter:'Aksi', burger:'Simulator', parachute:'Obby & Platformer', highlow:'Klasik', gridmemory:'Puzzle', hangman:'Edukasi', spinwheel:'Simulator', jumprope:'Obby & Platformer', gallery:'Aksi', wordchain:'Edukasi', xcraft:'Petualangan', racing:'Balapan' };
+const HOWTO = { xcraft:'Jelajahi dunia balok tanpa batas: hancurkan & pasang blok, bangun rumah impianmu, jangan sampai lapar. Dunia tersimpan otomatis!', racing:'Gas sampai 1.000 meter! Geser ◀ ▶ buat pindah jalur, hindari mobil lain — nyaris nabrak = poin near-miss. Finis tercepat menang!' };
+const TIER = { xcraft:0, racing:0, zombie:1, shooter:1, runner:1, dino:1, g2048:1, snake:1, flappy:1, fishing:1, obby:1, maze:1, blockfall:1, stack:1 };
+function meta(g){
+  const h = hashStr('meta' + g.id);
+  const tier = TIER[g.id] != null ? TIER[g.id] : 2 + (h % 2);
+  const activeBase = [46000, 15000, 2600, 700][tier];
+  const wob = 1 + ((Math.floor(Date.now() / 600000) + h) % 13) / 60;
+  const up = 90000 + (h % 400000) + tier * 50000, down = 4000 + (h % 26000);
+  return {
+    genre: GENRE[g.id] || 'Arcade', active: Math.round(activeBase * (0.55 + (h % 80) / 100) * wob),
+    visits: 1200000 + (h % 90000000) + (3 - tier) * 30000000, up, down,
+    rating: Math.round(up / (up + down) * 1000) / 10,
+    favs: 20000 + (h % 900000), size: [10, 25, 50][h % 3],
+    created: ['12 Mar 2023','28 Jun 2023','5 Sep 2023','19 Jan 2024','2 Apr 2024'][h % 5],
+    updated: ['Kemarin','3 hari lalu','Minggu lalu','2 minggu lalu'][h % 4],
+    how: HOWTO[g.id] || ('Mainkan ' + g.name + ' sampai selesai dan kumpulkan poin setinggi-tingginya! Skor akhirmu diubah jadi Rhikobux: makin tinggi poin, makin banyak Rhikobux-nya.'),
+    about: g.desc + ' Game ini adalah experience resmi Rhikoblox oleh Raka-Craft — bisa dimainkan sendiri atau bareng teman di server yang sama.' };
 }
-function refreshTop(){
-  const a = me(); if (!a) return;
-  document.getElementById('robuxAmt').textContent = fmt(a.robux);
-  document.getElementById('avatarBtn').innerHTML = avatarSVG(a.eq);
+let EXP = [];
+function buildExp(){
+  EXP = [
+    { id:'xcraft', name:'XCraft', emoji:'⛏️', hue:110, desc:'Dunia balok tanpa batas! Bangun, gali, dan bertahan hidup — dunia tersimpan otomatis.' },
+    { id:'racing', name:'Balap Rhiko GP', emoji:'🏎️', hue:210, desc:'Balapan 1.000 meter lawan Bot atau Teman. Near-miss nambah poin!' },
+  ].concat(RGAMES.map(g => ({ id:g.id, name:g.name, emoji:g.emoji, hue:g.hue, desc:g.desc })));
+  EXP.forEach(g => g.m = meta(g));
 }
-function showView(v){
-  ['home','market','avatar','friends','profile'].forEach(x=>{
-    document.getElementById('view-'+x).classList.toggle('hidden', x!==v);
-    const nb = document.getElementById('nav-'+x); if (nb) nb.classList.toggle('sel', x===v);
-  });
-  if (v==='home') renderHome();
-  if (v==='market') renderMarket(currentCat);
-  if (v==='avatar') renderAvatar();
-  if (v==='friends') renderFriends();
-  if (v==='profile') renderProfile();
-  window.scrollTo(0,0);
+function expById(id){ return EXP.find(g => g.id === id); }
+function coverGrad(g, dark){ return 'background:linear-gradient(135deg,hsl(' + g.hue + ',72%,' + (dark ? 26 : 40) + '%),hsl(' + ((g.hue + 55) % 360) + ',78%,' + (dark ? 15 : 25) + '%))'; }
+
+/* ================= NAVIGASI & CHROME ================= */
+let curPage = 'home', curDetail = null, curDetailTab = 'about', curCat = 'Semua', carPos = {};
+function showPage(page, param){
+  curPage = page;
+  ['notif','gear'].forEach(closeDrop);
+  document.querySelectorAll('#sidebar .slink').forEach(b => b.classList.toggle('sel', b.dataset.page === page));
+  document.querySelectorAll('#tabbar button').forEach(b => b.classList.toggle('sel', b.id === 'tb-' + page));
+  const v = $('view');
+  if(page === 'home') renderHome(v);
+  else if(page === 'charts') renderCharts(v, param);
+  else if(page === 'detail') renderDetail(v, param);
+  else if(page === 'market') renderMarket(v, param || 'hair');
+  else if(page === 'avatar') renderAvatarPage(v, param || 'hair');
+  else if(page === 'inventory') renderInventory(v);
+  else if(page === 'profile') renderProfile(v);
+  else if(page === 'friends') renderFriends(v);
+  else if(page === 'messages') renderMessages(v);
+  else if(page === 'groups') renderGroups(v);
+  else if(page === 'trade') renderTrade(v);
+  else if(page === 'create') renderCreate(v);
+  window.scrollTo(0, 0);
+}
+function renderChrome(){
+  const a = me(); if(!a) return;
+  $('pillAv').innerHTML = avatarSVG(a.eq, a.user);
+  $('pillName').textContent = a.display;
+  setBux(a.robux);
+  const online = a.friends.filter(f => friendStatus(f.user).st !== 'off').length;
+  const unread = Object.values(a.unread || {}).reduce((s, n) => s + n, 0);
+  $('sidebar').innerHTML =
+    '<button class="me" onclick="showPage(\'profile\')"><span class="av">' + avatarSVG(a.eq, a.user) + '</span><span style="min-width:0"><b style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc(a.display) + '</b><span class="mut small">@' + esc(a.user) + '</span></span></button>' +
+    '<div style="height:8px"></div>' +
+    slink('home','🏠','Home') + slink('profile','👤','Profile') +
+    slink('messages','✉️','Messages', unread ? '<span class="bdg">' + unread + '</span>' : '') +
+    slink('friends','👥','Friends', '<span class="cnt">' + online + ' online</span>') +
+    slink('avatar','🧍','Avatar') + slink('inventory','🎒','Inventory') +
+    slink('trade','🔄','Trade') + slink('groups','🛡️','Groups') +
+    '<button class="cta" onclick="openBux()">🎁 Get Rhikobux</button>';
+  updateNotifBdg(); updateChatBdg();
+}
+function slink(p, ic, label, extra){ return '<button class="slink" data-page="' + p + '" onclick="showPage(\'' + p + '\')"><span>' + ic + '</span>' + label + (extra || '') + '</button>'; }
+function toggleDrop(which){
+  const el = $(which + 'Drop'), was = el.classList.contains('hidden');
+  ['notif','gear'].forEach(closeDrop);
+  if(was){ el.classList.remove('hidden'); if(which === 'notif') renderNotifs(); }
+}
+function closeDrop(which){ const el = $(which + 'Drop'); if(el) el.classList.add('hidden'); }
+function updateNotifBdg(){ const a = me(); if(!a || !a.notifs) return; const n = a.notifs.filter(x => !x.read).length; const b = $('notifBdg'); b.textContent = n; b.classList.toggle('hidden', !n); }
+function renderNotifs(){
+  const a = me();
+  $('notifDrop').innerHTML = '<div style="padding:8px 10px;font-weight:800">Notifikasi</div>' + (a.notifs.length ? a.notifs.map(n => '<div class="nt">' + n.t + '</div>').join('') : '<div class="nt mut">Belum ada notifikasi.</div>');
+  a.notifs.forEach(n => n.read = true); saveDB(); updateNotifBdg();
+}
+function pushNotif(text){ const a = me(); a.notifs.unshift({t: text, read: false}); a.notifs = a.notifs.slice(0, 12); saveDB(); updateNotifBdg(); }
+/* ===== Buy Rhikobux & Settings ===== */
+function openBux(tab){
+  const a = me(); tab = tab || 'beli';
+  const packs = [[100,'Rp1.500'],[400,'Rp5.000'],[800,'Rp9.000'],[1700,'Rp17.000'],[4500,'Rp42.000'],[10000,'Rp89.000']];
+  $('buxCard').innerHTML = '<div style="display:flex;align-items:center;gap:8px"><h3 style="margin:0">Rhikobux</h3><span style="margin-left:auto;display:flex;gap:6px;align-items:center;font-weight:800">' + buxIcon() + a.robux.toLocaleString('id-ID') + '</span></div>' +
+    '<div style="display:flex;gap:7px;margin:13px 0"><button class="chipf ' + (tab === 'beli' ? 'sel' : '') + '" onclick="openBux(\'beli\')">Buy Rhikobux</button><button class="chipf ' + (tab === 'trx' ? 'sel' : '') + '" onclick="openBux(\'trx\')">My Transactions</button></div>' +
+    (tab === 'beli'
+      ? '<div class="shopgrid" style="grid-template-columns:1fr 1fr">' + packs.map(p => '<div class="shopitem"><div style="font-weight:800;font-size:16px;display:flex;gap:6px;align-items:center;justify-content:center">' + buxIcon() + p[0].toLocaleString('id-ID') + '</div><div class="mut small" style="margin:4px 0 9px">' + p[1] + '</div><button onclick="claimPack(' + p[0] + ')">Ambil Gratis</button></div>').join('') + '</div><p class="mut small" style="margin-top:11px">Di Rhikoblox semua paket Rhikobux bisa diambil <b>gratis</b> — ini duniamu, Tuan! 🎉</p>'
+      : '<div class="mut" style="line-height:1.7;font-size:14px">💰 Saldo sekarang: <b style="color:#fff">' + a.robux.toLocaleString('id-ID') + ' Rhikobux</b><br>🎮 Total main: <b style="color:#fff">' + a.plays + ' kali</b><br>🎁 Terakhir klaim bonus harian: <b style="color:#fff">' + (a.lastDaily ? new Date(a.lastDaily).toLocaleDateString('id-ID') : 'belum pernah') + '</b><br>⭐ Item dimiliki: <b style="color:#fff">' + a.inv.length + '</b></div>') +
+    '<button class="btn" style="width:100%;margin-top:14px" onclick="$(\'buxModal\').classList.add(\'hidden\')">Tutup</button>';
+  $('buxModal').classList.remove('hidden');
+}
+function claimPack(n){ addBux(n); toast('+' + n.toLocaleString('id-ID') + ' Rhikobux masuk! 🎉'); openBux('beli'); renderChrome(); }
+function claimDaily(){
+  const a = me();
+  if(Date.now() - a.lastDaily < 86400000) return toast('Bonus harian sudah diambil — balik lagi besok ya!');
+  a.lastDaily = Date.now(); addBux(100); toast('🎁 Bonus harian +100 Rhikobux!');
+  pushNotif('🎁 Kamu mengklaim bonus harian +100 Rhikobux.'); renderChrome(); showPage('home');
+}
+function openSettings(){
+  const s = me().settings;
+  $('buxCard').innerHTML = '<h3 style="margin:0 0 6px">⚙️ Settings</h3>' +
+    '<div class="setrow">Kualitas Grafis <span class="ctl"><input type="range" min="1" max="10" value="' + s.graphics + '" onchange="setSetting(\'graphics\',+this.value)"> <b>' + s.graphics + '</b></span></div>' +
+    '<div class="setrow">Volume <span class="ctl"><input type="range" min="0" max="100" value="' + s.volume + '" onchange="setSetting(\'volume\',+this.value)"> <b>' + s.volume + '%</b></span></div>' +
+    '<div class="setrow">Shift Lock <span class="ctl"><button class="switch ' + (s.shift ? 'on' : '') + '" onclick="setSetting(\'shift\',!me().settings.shift);openSettings()"></button></span></div>' +
+    '<div class="setrow">Mode Kamera <span class="ctl"><select class="fld" style="margin:0;padding:7px;width:130px" onchange="setSetting(\'cam\',this.value)"><option ' + (s.cam === 'Klasik' ? 'selected' : '') + '>Klasik</option><option ' + (s.cam === 'Ikuti' ? 'selected' : '') + '>Ikuti</option><option ' + (s.cam === 'Bebas' ? 'selected' : '') + '>Bebas</option></select></span></div>' +
+    '<button class="btn" style="width:100%;margin-top:14px" onclick="$(\'buxModal\').classList.add(\'hidden\')">Tutup</button>';
+  $('buxModal').classList.remove('hidden');
+}
+function setSetting(k, v){ me().settings[k] = v; saveDB(); }
+/* ===== Pencarian ala Roblox ===== */
+function onSearch(q){
+  q = (q || '').trim().toLowerCase();
+  const d = $('searchDrop');
+  if(!q){ d.classList.add('hidden'); return; }
+  const games = EXP.filter(g => g.name.toLowerCase().includes(q)).slice(0, 4);
+  const items = ITEMS.filter(i => i.name.toLowerCase().includes(q)).slice(0, 3);
+  const people = [...new Set(EXP.length ? Object.keys(DB.accounts).concat(me().friends.map(f => f.display)) : [])].filter(n => n.toLowerCase().includes(q)).slice(0, 3);
+  d.innerHTML =
+    '<button class="row" onclick="searchGo(\'charts\',\'' + esc(q).replace(/'/g, '') + '\')">🔍 Search “' + esc(q) + '” <span class="cl">in Experiences</span></button>' +
+    '<button class="row" onclick="searchGo(\'market\')">🛍️ Search “' + esc(q) + '” <span class="cl">in Marketplace</span></button>' +
+    '<button class="row" onclick="searchGo(\'friends\')">👥 Search “' + esc(q) + '” <span class="cl">in Players</span></button>' +
+    games.map(g => '<button class="row" onclick="openDetail(\'' + g.id + '\')">' + g.emoji + ' ' + esc(g.name) + '<span class="cl">👍 ' + g.m.rating + '%</span></button>').join('') +
+    items.map(i => '<button class="row" onclick="openBuy(\'' + i.id + '\')">' + i.emoji + ' ' + esc(i.name) + '<span class="cl">' + i.price + ' Rhikobux</span></button>').join('') +
+    people.map(p => '<button class="row" onclick="searchGo(\'friends\')">👤 ' + esc(p) + '<span class="cl">Player</span></button>').join('');
+  d.classList.remove('hidden');
+}
+function searchGo(page, q){ $('searchDrop').classList.add('hidden'); if(page === 'charts') showPage('charts', q || ''); else showPage(page); $('searchInput').value = ''; }
+document.addEventListener('click', e => { if(!$('searchWrap').contains(e.target)) $('searchDrop').classList.add('hidden'); });
+
+/* ================= STATUS TEMAN (simulasi stabil) ================= */
+function friendStatus(user){
+  const h = hashStr(user + Math.floor(Date.now() / 1800000));
+  const r = h % 10;
+  if(r < 4) return { st:'on', label:'Online', color:'#4fe07a', game:null };
+  if(r < 7){ const g = EXP[h % EXP.length]; return { st:'ingame', label:'Playing ' + g.name, color:'#57b6ff', game:g.id }; }
+  return { st:'off', label:'Offline', color:'#8a8f98', game:null };
+}
+function friendAv(f){ const acc = DB.accounts[f.user]; return avatarSVG(acc ? acc.eq : (f.avatar || fakeAvatarFor(f.display)), f.user); }
+
+/* ================= TILE & KAROUSEL ================= */
+function tile1(g){
+  return '<button class="tile1" onclick="openDetail(\'' + g.id + '\')"><span class="th" style="' + coverGrad(g) + '"><span class="big">' + g.emoji + '</span><span class="ghost">' + g.emoji + '</span></span><span class="nm">' + esc(g.name) + '</span><span class="stats"><span>👍 ' + g.m.rating + '%</span><span>👤 ' + fmtK(g.m.active) + '</span></span></button>';
+}
+function tile169(g){
+  return '<button class="tile169" onclick="openDetail(\'' + g.id + '\')"><span class="th" style="' + coverGrad(g) + '"><span class="big">' + g.emoji + '</span></span><span class="nm">' + esc(g.name) + '</span><span class="stats"><span>👍 ' + g.m.rating + '%</span><span>👤 ' + fmtK(g.m.active) + ' Playing</span><span>🎭 ' + g.m.genre + '</span></span></button>';
+}
+function carousel(title, list, id, wide){
+  if(!list.length) return '';
+  return '<div style="display:flex;align-items:center"><h2 class="sec">' + title + '</h2><button class="seeall" onclick="seeAll(\'' + id + '\')">See All ›</button></div>' +
+   '<div class="carwrap"><button class="carbtn l" onclick="carScroll(\'' + id + '\',-1)">‹</button><div class="car" id="car-' + id + '">' + list.map(wide ? tile169 : tile1).join('') + '</div><button class="carbtn r" onclick="carScroll(\'' + id + '\',1)">›</button></div>';
+}
+const CATLISTS = {};
+function seeAll(id){ const c = CATLISTS[id]; if(!c) return; CATSHOW = { title:c.title, list:c.list }; showPage('charts', '__cat'); }
+let CATSHOW = null;
+function carScroll(id, dir){ const el = $('car-' + id); if(el) el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior:'smooth' }); }
+
+/* ================= HOME ================= */
+function renderHome(v){
+  const a = me();
+  const canDaily = Date.now() - a.lastDaily >= 86400000;
+  const cont = a.recent.map(expById).filter(Boolean);
+  const favs = a.favs.map(expById).filter(Boolean);
+  const rec = [...EXP].sort((x, y) => (hashStr(x.id + a.user) % 997) - (hashStr(y.id + a.user) % 997)).slice(0, 6);
+  const trend = [...EXP].sort((x, y) => y.m.active - x.m.active).slice(0, 10);
+  CATLISTS.trend = { title:'Top Trending', list:trend }; CATLISTS.rec = { title:'Recommended For You', list:rec };
+  if(cont.length) CATLISTS.cont = { title:'Continue', list:cont };
+  if(favs.length) CATLISTS.fav = { title:'Favorites', list:favs };
+  v.innerHTML = '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h1 class="page" style="margin:0">Home</h1>' +
+    (canDaily ? '<button class="btn green" onclick="claimDaily()">🎁 Klaim Bonus Harian +100</button>' : '<span class="mut small">✅ Bonus harian sudah diklaim — balik besok!</span>') + '</div>' +
+    '<h2 class="sec">Friends (' + a.friends.length + ')</h2><div class="frow-scroll">' +
+    '<button class="friendbubble addbubble" onclick="showPage(\'friends\')"><span class="avw"><span class="av">+</span></span><div class="nm">Add Friends</div><div class="st">Cari teman</div></button>' +
+    a.friends.map(f => { const s = friendStatus(f.user); return '<button class="friendbubble" onclick="' + (s.game ? 'openDetail(\'' + s.game + '\')' : 'showPage(\'friends\')') + '"><span class="avw"><span class="av">' + friendAv(f) + '</span><span class="dot" style="background:' + s.color + '"></span></span><div class="nm">' + esc(f.display) + '</div><div class="st">' + s.label + '</div></button>'; }).join('') + '</div>' +
+    (cont.length ? carousel('Continue', cont, 'cont') : '') +
+    (favs.length ? carousel('Favorites', favs, 'fav') : '') +
+    '<div style="display:flex;align-items:center"><h2 class="sec">Recommended For You</h2><button class="seeall" onclick="seeAll(\'rec\')">See All ›</button></div>' +
+    '<div class="carwrap"><button class="carbtn l" onclick="carScroll(\'rec\',-1)">‹</button><div class="car" id="car-rec">' + rec.map(tile169).join('') + '</div><button class="carbtn r" onclick="carScroll(\'rec\',1)">›</button></div>' +
+    carousel('Top Trending', trend, 'trend');
 }
 
-/* ================= BERANDA & KATALOG ================= */
-function coverStyle(hue, em){
-  return '<div class="cover" style="background:radial-gradient(120px 60px at 20% 0%, hsla('+hue+',90%,70%,.5), transparent),linear-gradient(135deg, hsl('+hue+',55%,34%), hsl('+((hue+50)%360)+',60%,20%))"><span style="filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))">'+em+'</span><span style="position:absolute;right:-8px;bottom:-14px;font-size:56px;opacity:.16">'+em+'</span></div>';
-}
-function canClaimDaily(a){ return a.lastDaily !== todayStr(); }
-function claimDaily(){ const a = me(); if (!canClaimDaily(a)) return; a.robux += 100; a.lastDaily = todayStr(); saveDB(); refreshTop(); toast('Bonus harian +100 Robux! 🎁'); renderHome(); }
-function renderHome(){
-  const a = me(); const v = document.getElementById('view-home');
-  let h = '<h2 class="sec">Halo, ' + esc(a.display) + '! 👋</h2>';
-  if (canClaimDaily(a)) h += '<div class="card" style="display:flex;align-items:center;gap:10px"><div style="font-size:30px">🎁</div><div style="flex:1"><b>Bonus Harian</b><div style="color:#8d99bd;font-size:13px">Ambil 100 Robux gratis hari ini!</div></div><button class="btn green" onclick="claimDaily()">Ambil</button></div>';
-  h += '<h2 class="sec">⭐ Game Unggulan</h2>';
-  h += '<div class="feat" style="background:linear-gradient(120deg,#3f7a2e,#79a83b 55%,#4a6e2a)"><div style="position:absolute;inset:0;font-size:44px;display:flex;align-items:center;justify-content:center;gap:4px;opacity:.9"><span>🟩</span><span>🟫</span><span>⛏️</span><span>🌲</span><span>🟩</span></div><div class="info"><div class="t">XCraft</div><div class="d">Game blok buatanmu sendiri — dunia tersimpan otomatis!</div></div><button class="playbtn" onclick="openGame(\'xcraft\')">▶ MAIN</button></div>';
-  h += '<div class="feat" style="background:linear-gradient(120deg,#5e1f6e,#b03a8c 55%,#2b2f6e)"><div style="position:absolute;inset:0;font-size:46px;display:flex;align-items:center;justify-content:center;gap:6px"><span>🏎️</span><span>💨</span><span>🏁</span></div><div class="info"><div class="t">Balap Rhiko GP</div><div class="d">Balapan lawan Bot atau lawan Temanmu!</div></div><button class="playbtn" onclick="openGame(\'racing\')">▶ MAIN</button></div>';
-  h += '<h2 class="sec">🎮 Semua Game (' + RGAMES.length + ')</h2><div class="grid">';
-  RGAMES.forEach(g => { h += '<button class="tile" onclick="openGame(\''+g.id+'\')">' + coverStyle(g.hue, g.emoji) + '<div class="nm">'+esc(g.name)+'</div><div class="ds">'+esc(g.desc)+'</div></button>'; });
-  h += '</div><p style="color:#67719a;font-size:12px;text-align:center;margin-top:16px">Setiap main game kamu dapat Robux. Kumpulkan buat belanja di Pasar! 🛒</p>';
-  v.innerHTML = h;
-}
-function esc(s){ return String(s==null?'':s).replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-/* ================= PASAR ================= */
-let currentCat = 'hair';
-function renderMarket(cat){
-  currentCat = cat || currentCat;
-  const a = me(); const v = document.getElementById('view-market');
-  let h = '<h2 class="sec">🛒 Pasar Avatar</h2><p style="color:#8d99bd;margin:0 2px 12px;font-size:13.5px">Beli item buat dandani avatarmu. Robux-mu: <b style="color:#ffd94d">' + fmt(a.robux) + '</b></p>';
-  h += '<div class="cattabs">' + CATS.map(c=>'<button class="'+(currentCat===c[0]?'sel':'')+'" onclick="renderMarket(\''+c[0]+'\')">'+c[1]+'</button>').join('') + '</div>';
-  h += '<div class="shopgrid">';
-  ITEMS.filter(i=>i.cat===currentCat).forEach(i=>{
-    const owned = a.inv.includes(i.id); const equipped = a.eq[i.cat]===i.id;
-    let btn;
-    if (equipped) btn = '<button class="owned" disabled>Terpasang ✓</button>';
-    else if (owned) btn = '<button class="equip" onclick="equipItem(\''+i.id+'\')">Pakai</button>';
-    else btn = '<button onclick="buyItem(\''+i.id+'\')" '+(a.robux < i.price ? 'disabled style="background:#39406b"' : '')+'>Beli • ' + fmt(i.price) + ' R$</button>';
-    h += '<div class="shopitem"><div class="em">'+i.em+'</div><div class="nm">'+esc(i.name)+'</div><div class="pr">' + (owned ? 'Dimiliki' : fmt(i.price)+' Robux') + '</div>' + btn + '</div>';
-  });
-  h += '</div>';
-  v.innerHTML = h;
-}
-function buyItem(id){
-  const a = me(); const i = itemById(id); if (!i || a.inv.includes(id)) return;
-  if (a.robux < i.price) return toast('Robux kurang 😢 Main game dulu buat ngumpulin!');
-  a.robux -= i.price; a.inv.push(id); a.eq[i.cat] = id; saveDB(); refreshTop(); renderMarket(currentCat);
-  toast('Kamu membeli ' + i.name + '! Langsung terpasang 🎉');
-}
-function equipItem(id){ const a = me(); const i = itemById(id); if (!i || !a.inv.includes(id)) return; a.eq[i.cat] = id; saveDB(); refreshTop(); if (!document.getElementById('view-market').classList.contains('hidden')) renderMarket(currentCat); if (!document.getElementById('view-avatar').classList.contains('hidden')) renderAvatar(); }
-
-/* ================= EDITOR AVATAR ================= */
-function renderAvatar(){
-  const a = me(); const v = document.getElementById('view-avatar');
-  let h = '<h2 class="sec">🧍 Editor Avatar</h2>';
-  h += '<div class="card" style="text-align:center"><div style="width:170px;margin:0 auto">' + avatarSVG(a.eq) + '</div><b>' + esc(a.display) + '</b><div style="color:#8d99bd;font-size:13px">@' + esc(a.user) + '</div></div>';
-  CATS.forEach(c=>{
-    h += '<h3 style="margin:14px 2px 8px;font-size:15px">' + c[1] + '</h3><div style="display:flex;gap:8px;flex-wrap:wrap">';
-    if (c[0]==='hat' || c[0]==='acc') h += '<button class="btn" style="'+(a.eq[c[0]]===null?'border-color:#ffd94d;color:#ffd94d':'')+'" onclick="unequip(\''+c[0]+'\')">🚫 Lepas</button>';
-    ITEMS.filter(i=>i.cat===c[0]).forEach(i=>{
-      const owned = a.inv.includes(i.id); const on = a.eq[c[0]]===i.id;
-      if (owned) h += '<button class="btn" style="'+(on?'border-color:#00b06f;background:#123324':'')+'" onclick="equipItem(\''+i.id+'\')">' + i.em + ' ' + esc(i.name) + (on?' ✓':'') + '</button>';
-      else h += '<button class="btn" style="opacity:.55" onclick="showView(\'market\');renderMarket(\''+c[0]+'\')">' + i.em + ' ' + esc(i.name) + ' • ' + fmt(i.price) + ' R$ 🔒</button>';
-    });
-    h += '</div>';
-  });
-  h += '<p style="color:#67719a;font-size:12.5px;margin-top:14px">Item yang belum kamu miliki ada di 🛒 Pasar. Main game buat ngumpulin Robux!</p>';
-  v.innerHTML = h;
-}
-function unequip(cat){ const a = me(); a.eq[cat] = null; saveDB(); refreshTop(); renderAvatar(); }
-
-/* ================= TEMAN ================= */
-function friendData(name){
-  const low = name.toLowerCase(); const acc = DB.accounts[low];
-  if (acc) return { name: acc.user, display: acc.display, eq: acc.eq, real: true };
-  return { name: name, display: name, eq: fakeAvatarFor(name), real: false };
-}
-function renderFriends(){
-  const a = me(); const v = document.getElementById('view-friends');
-  let h = '<h2 class="sec">👥 Teman</h2>';
-  h += '<div class="card"><b>Tambah teman dari nama</b><div style="display:flex;gap:8px;margin-top:9px"><input class="fld" id="fr-search" placeholder="Ketik username temanmu…" style="margin:0;flex:1" maxlength="16"><button class="btn blue" onclick="searchFriend()">Cari</button></div><div id="fr-result" style="margin-top:10px"></div></div>';
-  h += '<h3 style="margin:6px 2px 10px;font-size:15px">Temanmu (' + a.friends.length + ')</h3>';
-  if (!a.friends.length) h += '<p style="color:#8d99bd">Belum ada teman. Cari nama di atas buat nambah teman pertama!</p>';
-  a.friends.forEach(fn=>{
-    const f = friendData(fn);
-    h += '<div class="frow"><div class="av">' + avatarSVG(f.eq) + '</div><div style="flex:1"><b>' + esc(f.display) + '</b><div style="color:#8d99bd;font-size:12.5px">@' + esc(f.name) + '</div></div><button class="btn green" onclick="openGame(\'racing\', \'' + esc(f.name) + '\')">🏁 Balapan</button><button class="btn red" onclick="removeFriend(\'' + esc(f.name) + '\')">✕</button></div>';
-  });
-  v.innerHTML = h;
-}
-function searchFriend(){
-  const a = me(); const q = document.getElementById('fr-search').value.trim();
-  const box = document.getElementById('fr-result');
-  if (q.length < 3) { box.innerHTML = '<span style="color:#ff8b96">Ketik minimal 3 huruf ya.</span>'; return; }
-  if (q.toLowerCase() === a.user.toLowerCase()) { box.innerHTML = '<span style="color:#ff8b96">Itu namamu sendiri 😄</span>'; return; }
-  if (a.friends.some(f=>f.toLowerCase()===q.toLowerCase())) { box.innerHTML = '<span style="color:#ffd94d">@' + esc(q) + ' sudah jadi temanmu.</span>'; return; }
-  const f = friendData(q);
-  box.innerHTML = '<div class="frow" style="margin:0"><div class="av">' + avatarSVG(f.eq) + '</div><div style="flex:1"><b>' + esc(f.display) + '</b><div style="color:#8d99bd;font-size:12.5px">@' + esc(f.name) + (f.real ? ' • Akun Rhikoblox' : ' • Pemain Rhikoblox') + '</div></div><button class="btn green" onclick="addFriend(\'' + esc(f.name) + '\')">➕ Tambah</button></div>';
-}
-function addFriend(name){ const a = me(); if (!a.friends.some(f=>f.toLowerCase()===name.toLowerCase())) a.friends.push(name); saveDB(); toast('@' + name + ' sekarang temanmu! 🎉'); renderFriends(); }
-function removeFriend(name){ const a = me(); a.friends = a.friends.filter(f=>f.toLowerCase()!==name.toLowerCase()); saveDB(); renderFriends(); }
-
-/* ================= PROFIL ================= */
-function renderProfile(){
-  const a = me(); const v = document.getElementById('view-profile');
-  let h = '<h2 class="sec">👤 Profilku</h2>';
-  h += '<div class="card" style="text-align:center"><div style="width:150px;margin:0 auto">' + avatarSVG(a.eq) + '</div>';
-  h += '<div style="font-size:19px;font-weight:900">' + esc(a.display) + '</div><div style="color:#8d99bd">@' + esc(a.user) + '</div>';
-  h += '<div style="margin-top:8px;font-weight:900;color:#ffd94d">⬜ ' + fmt(a.robux) + ' Robux</div></div>';
-  h += '<div class="card"><b>Nama tampilan (display name)</b><div style="display:flex;gap:8px;margin-top:8px"><input class="fld" id="pf-display" value="' + esc(a.display) + '" maxlength="20" style="margin:0;flex:1"><button class="btn blue" onclick="saveDisplay()">Simpan</button></div><div style="color:#8d99bd;font-size:12.5px;margin-top:6px">Display name bisa diganti kapan saja, gratis.</div></div>';
-  h += '<div class="card"><b>Bio</b><textarea class="fld" id="pf-bio" rows="2" maxlength="80" style="margin-top:8px" placeholder="Tulis sesuatu tentang kamu…">' + esc(a.bio||'') + '</textarea><button class="btn blue" onclick="saveBio()">Simpan Bio</button></div>';
-  h += '<div class="card"><b>Ganti username</b><div style="color:#8d99bd;font-size:13px;margin:6px 0 8px">Username adalah nama aslimu buat login. Menggantinya berharga <b style="color:#ffd94d">1.000 Robux</b>.</div><div style="display:flex;gap:8px"><input class="fld" id="pf-newuser" placeholder="Username baru" maxlength="16" style="margin:0;flex:1"><button class="btn" style="background:#8a6a10;border-color:#8a6a10;color:#fff" onclick="changeUsername()">Ganti • 1.000 R$</button></div></div>';
-  h += '<div class="card" style="display:flex;gap:14px;text-align:center"><div style="flex:1"><div style="font-size:19px;font-weight:900">' + a.plays + '</div><div style="color:#8d99bd;font-size:12px">Kali Main</div></div><div style="flex:1"><div style="font-size:19px;font-weight:900">' + a.friends.length + '</div><div style="color:#8d99bd;font-size:12px">Teman</div></div><div style="flex:1"><div style="font-size:19px;font-weight:900">' + a.inv.length + '</div><div style="color:#8d99bd;font-size:12px">Item</div></div></div>';
-  h += '<button class="btn" style="width:100%;margin-bottom:8px" onclick="showView(\'avatar\')">🧍 Edit Avatar</button>';
-  h += '<button class="btn red" style="width:100%" onclick="logout()">🚪 Keluar Akun</button>';
-  h += '<p style="color:#67719a;font-size:12px;text-align:center;margin-top:12px">Bergabung sejak ' + esc(a.created) + '</p>';
-  v.innerHTML = h;
-}
-function saveDisplay(){ const a = me(); const d = document.getElementById('pf-display').value.trim(); if (d.length < 1) return toast('Display name tidak boleh kosong'); a.display = d; saveDB(); toast('Display name diganti jadi ' + d + ' ✓'); renderProfile(); }
-function saveBio(){ const a = me(); a.bio = document.getElementById('pf-bio').value.trim(); saveDB(); toast('Bio tersimpan ✓'); }
-function changeUsername(){
-  const a = me(); const nu = document.getElementById('pf-newuser').value.trim();
-  if (!validUser(nu)) return toast('Username baru 3-16 huruf/angka/underscore ya');
-  if (DB.accounts[nu.toLowerCase()]) return toast('Username itu sudah dipakai 😢');
-  if (a.robux < 1000) return toast('Robux kurang! Butuh 1.000, kamu punya ' + fmt(a.robux));
-  a.robux -= 1000;
-  delete DB.accounts[a.user.toLowerCase()];
-  a.user = nu; DB.accounts[nu.toLowerCase()] = a; DB.session = nu.toLowerCase();
-  saveDB(); refreshTop(); toast('Username resmi diganti jadi @' + nu + ' 🎉'); renderProfile();
-}
-
-/* ================= PEMUTAR GAME ================= */
-let curGame = null, curFriend = null, playEnded = false, raceRAF = null;
-function openGame(id, friendName){
-  curGame = id; curFriend = friendName || null; playEnded = false;
-  const a = me(); if (!a) return;
-  document.getElementById('player').classList.remove('hidden');
-  document.getElementById('playerScore').textContent = '';
-  const stage = document.getElementById('stage'); stage.innerHTML = '';
-  if (id === 'xcraft'){
-    document.getElementById('playerTitle').textContent = '⛏️ XCraft';
-    stage.innerHTML = '<iframe id="xframe" src="xcraft.html"></iframe>';
+/* ================= CHARTS / DISCOVER ================= */
+function renderCharts(v, param){
+  if(param === '__cat' && CATSHOW){
+    v.innerHTML = '<h1 class="page">' + CATSHOW.title + '</h1><div class="gridtiles">' + CATSHOW.list.map(tile1).join('') + '</div>';
     return;
   }
-  if (id === 'racing'){ document.getElementById('playerTitle').textContent = '🏎️ Balap Rhiko GP'; raceMenu(); return; }
-  const g = RGAMES.find(x=>x.id===id);
-  if (!g) { closePlayer(); return; }
-  document.getElementById('playerTitle').textContent = g.emoji + ' ' + g.name;
-  try { g.play(stage, { end: function(points){ if (!playEnded){ playEnded = true; endWithResult(points, g.name); } } }); }
-  catch(e){ stage.innerHTML = '<p style="padding:20px;color:#ff8b96">Game ini lagi error 🙏 Coba game lain dulu ya.</p>'; }
-}
-function endWithResult(points, gameName){
-  const a = me();
-  points = Math.max(0, Math.min(100, Math.round(points||0)));
-  const reward = points <= 0 ? 0 : Math.max(2, Math.round(points/4));
-  a.robux += reward; a.plays++; saveDB(); refreshTop();
-  document.getElementById('resTitle').textContent = gameName + ' — Selesai!';
-  document.getElementById('resText').innerHTML = 'Skor kamu: <b style="color:#fff">' + points + '</b> poin<br>Hadiah: <b style="color:#ffd94d">+' + reward + ' Robux</b> ⬜';
-  document.getElementById('resultModal').classList.remove('hidden');
-}
-function closeResult(){ document.getElementById('resultModal').classList.add('hidden'); closePlayer(); }
-function replayGame(){ document.getElementById('resultModal').classList.add('hidden'); const id = curGame, f = curFriend; closePlayer(); setTimeout(()=>openGame(id, f), 60); }
-function closePlayer(){
-  if (raceRAF) { cancelAnimationFrame(raceRAF); raceRAF = null; }
-  raceState = null;
-  const stage = document.getElementById('stage'); stage.innerHTML = '';
-  document.getElementById('player').classList.add('hidden');
-  document.getElementById('resultModal').classList.add('hidden');
-  if (me()) showView('home');
+  const q = (param || '').toLowerCase();
+  const cats = ['Semua','Obby & Platformer','Simulator','Aksi & Arcade','Klasik','Puzzle','Edukasi','Olahraga & Balapan','Petualangan'];
+  const inCat = (g, c) => c === 'Semua' ? true : c === 'Aksi & Arcade' ? ['Aksi','Arcade'].includes(g.m.genre) : c === 'Simulator' ? g.m.genre === 'Simulator' : c === 'Olahraga & Balapan' ? ['Olahraga','Balapan'].includes(g.m.genre) : g.m.genre === c;
+  let list = EXP.filter(g => inCat(g, curCat) && (!q || g.name.toLowerCase().includes(q)));
+  const sortBy = (k, n) => [...EXP].sort((x, y) => y.m[k] - x.m[k]).slice(0, n || 12);
+  const rows = [
+    ['Top Trending', sortBy('active')], ['Up-and-Coming', [...EXP].sort((x, y) => hashStr(y.id + 'up') - hashStr(x.id + 'up')).slice(0, 12)],
+    ['Most Engaging', sortBy('rating')], ['Obby & Platformer', EXP.filter(g => g.m.genre === 'Obby & Platformer')],
+    ['Simulator & Tycoon', EXP.filter(g => g.m.genre === 'Simulator')], ['Action & Arcade', EXP.filter(g => ['Aksi','Arcade'].includes(g.m.genre))],
+    ['Classic Rhikoblox', EXP.filter(g => ['Klasik','Puzzle'].includes(g.m.genre))] ];
+  rows.forEach((r, i) => CATLISTS['ch' + i] = { title:r[0], list:r[1] });
+  v.innerHTML = '<h1 class="page">Charts</h1>' +
+    '<div class="cattabs">' + cats.map(c => '<button class="chipf ' + (curCat === c ? 'sel' : '') + '" onclick="curCat=\'' + c + '\';showPage(\'charts\')">' + c + '</button>').join('') + '</div>' +
+    (q ? '<h2 class="sec">Hasil untuk “' + esc(q) + '” (' + list.length + ')</h2><div class="gridtiles">' + list.map(tile1).join('') + '</div>' + (list.length ? '' : '<p class="mut">Tidak ada game yang cocok. Coba kata lain ya.</p>')
+      : (curCat !== 'Semua'
+        ? '<h2 class="sec">' + curCat + ' (' + list.length + ')</h2><div class="gridtiles">' + list.map(tile1).join('') + '</div>'
+        : rows.map((r, i) => carousel(r[0], r[1], 'ch' + i)).join('')));
 }
 
-/* ================= BALAP RHIKO GP ================= */
-let raceState = null;
-function raceMenu(){
-  const stage = document.getElementById('stage'); const a = me();
-  let h = '<div style="padding:22px;text-align:center"><div style="font-size:52px">🏎️💨</div><h2>Balap Rhiko GP</h2><p style="color:#8d99bd">Balapan sampai 1.000 meter! Hindari mobil lain di jalan.<br>Geser mobilmu dengan menyentuh & menyeret layar.</p>';
-  h += '<button class="btn green" style="width:100%;max-width:320px;padding:14px;font-size:16px;margin-bottom:10px" onclick="startRace(null)">🤖 Lawan Bot</button><br>';
-  if (curFriend) h += '<button class="btn blue" style="width:100%;max-width:320px;padding:14px;font-size:16px" onclick="startRace(\'' + esc(curFriend) + '\')">👥 Lawan ' + esc(curFriend) + '</button>';
-  else if (a.friends.length) { h += '<div style="margin:8px 0 4px;color:#aebadd;font-weight:800">👥 Lawan Teman:</div>'; a.friends.forEach(f=>{ h += '<button class="btn blue" style="margin:4px" onclick="startRace(\'' + esc(f) + '\')">🏁 ' + esc(f) + '</button>'; }); }
-  else h += '<p style="color:#67719a;font-size:13px">Belum ada teman — tambah teman dulu di menu 👥 Teman buat mode lawan teman.</p>';
-  h += '</div>';
-  stage.innerHTML = h;
+/* ================= EXPERIENCE DETAIL ================= */
+function openDetail(id){ curDetail = id; curDetailTab = 'about'; showPage('detail', id); }
+function ratingOf(g){
+  const a = me(); const v = a.votes[g.id] || 0;
+  const up = g.m.up + (v === 1 ? 1 : 0), down = g.m.down + (v === -1 ? 1 : 0);
+  return { pct: Math.round(up / (up + down) * 1000) / 10, up, down };
 }
+function vote(id, val){
+  const a = me(); a.votes[id] = a.votes[id] === val ? 0 : val; saveDB(); renderDetail($('view'), id);
+  if(a.votes[id]) toast(val === 1 ? 'Kamu menyukai game ini 👍' : 'Kamu memberi jempol bawah 👎');
+}
+function toggleFav(id){
+  const a = me(); const i = a.favs.indexOf(id);
+  if(i >= 0){ a.favs.splice(i, 1); toast('Dihapus dari Favorites'); }
+  else { a.favs.push(id); toast('Ditambahkan ke Favorites ⭐'); pushNotif('⭐ ' + expById(id).name + ' masuk daftar Favorites-mu.'); }
+  saveDB(); renderDetail($('view'), id); renderChrome();
+}
+function passesOf(g){
+  return [
+    { pid:'vip', ic:'⭐', nm:'VIP Pass', ds:'Lencana VIP di papan skor + nama emas saat main game ini.', pr: 150 + (hashStr(g.id) % 5) * 50 },
+    { pid:'x2', ic:'✖️2', nm:'Hadiah Ganda', ds:'Semua Rhikobux dari game ini digandakan (x2) selamanya!', pr: 250 + (hashStr(g.id + 'x') % 5) * 50 } ];
+}
+function buyPass(gid, pid){
+  const a = me(); const p = passesOf(expById(gid)).find(x => x.pid === pid);
+  a.passes[gid] = a.passes[gid] || [];
+  if(a.passes[gid].includes(pid)) return;
+  if(a.robux < p.pr) return toast('Rhikobux kurang! Kurang ' + (p.pr - a.robux) + ' lagi.');
+  setBux(a.robux - p.pr); a.passes[gid].push(pid); saveDB();
+  toast('🎉 ' + p.nm + ' terbeli!'); pushNotif('🛒 Kamu membeli ' + p.nm + ' untuk ' + expById(gid).name + '.');
+  renderChrome(); renderDetail($('view'), gid);
+}
+function fakePlayers(n, seedStr){
+  const names = ['BloxyRaka99','NusaCraft','pro_gamerINA','SintaPlayz','DimasBlox','kucingOyen_','FajarGaming','LalaBlox','RizkyX','putri_salju','Bima Sakti'.replace(' ',''),'ZahraBlox'];
+  const out = [];
+  for(let i = 0; i < n; i++){ const nm = names[(hashStr(seedStr + i) + i) % names.length]; out.push({ display: nm, user: nm.toLowerCase(), avatar: fakeAvatarFor(nm) }); }
+  return out;
+}
+function renderDetail(v, id){
+  const a = me(); const g = expById(id); if(!g) return;
+  const m = g.m, r = ratingOf(g); const isFav = a.favs.includes(id);
+  const vt = a.votes[id] || 0;
+  const totFav = m.favs + (isFav ? 1 : 0);
+  let tabHtml = '';
+  if(curDetailTab === 'about'){
+    tabHtml = '<p style="line-height:1.65;font-size:15px">' + esc(m.about) + '</p>' +
+     '<div class="card"><b>🎮 Cara Bermain</b><p class="mut" style="line-height:1.6;margin:7px 0 0">' + esc(m.how) + '</p></div>' +
+     '<h2 class="sec" style="margin-top:16px">Statistik</h2><div class="statgrid">' +
+     [['👤 Active', fmtK(m.active)],['⭐ Favorites', totFav.toLocaleString('id-ID')],['👣 Visits', fmtK(m.visits)],['🎙️ Voice Chat','Supported'],['📷 Camera','Supported'],['📅 Created', m.created],['🔄 Updated', m.updated],['🖥️ Server Size', m.size],['🎭 Genre', m.genre]].map(s => '<div><div class="k">' + s[0] + '</div><div class="v">' + s[1] + '</div></div>').join('') + '</div>';
+  } else if(curDetailTab === 'store'){
+    const owned = a.passes[id] || [];
+    tabHtml = '<h2 class="sec" style="margin-top:2px">Passes & Gear</h2>' + passesOf(g).map(p =>
+      '<div class="passrow"><span class="ic">' + p.ic + '</span><div style="flex:1"><b>' + p.nm + '</b><div class="mut small">' + p.ds + '</div></div>' +
+      (owned.includes(p.pid) ? '<span style="color:#4fe07a;font-weight:800">Dimiliki ✓</span>' : '<button class="btn green" onclick="buyPass(\'' + id + '\',\'' + p.pid + '\')">' + buxIcon('sm') + ' ' + p.pr + '</button>') + '</div>').join('') +
+      '<p class="mut small">Pass berlaku selamanya untuk game ini dan tersimpan di akunmu.</p>';
+  } else {
+    const srv = fakePlayers(5, id).map((p, i) => ({ p, n: 3 + (hashStr(id + i) % (m.size - 4)) }));
+    tabHtml = '<h2 class="sec" style="margin-top:2px">Private Servers</h2>' +
+     '<div class="passrow"><span class="ic">🔒</span><div style="flex:1"><b>Server Pribadiku</b><div class="mut small">Main tenang bareng teman pilihanmu.</div></div><button class="btn green" onclick="createServer(\'' + id + '\')">Buat — Gratis</button></div>' +
+     '<h2 class="sec">Other Servers</h2>' + srv.map((s, i) =>
+      '<div class="srvrow"><span class="av" style="width:38px;height:38px;border-radius:50%;overflow:hidden;background:var(--rbx-bg-elevated)">' + avatarSVG(s.p.avatar, s.p.user) + '</span><div style="flex:1"><b>' + esc(s.p.display) + '</b><div class="mut small">' + s.n + '/' + m.size + ' pemain</div></div><button class="btn" onclick="joinServer(\'' + id + '\',\'' + esc(s.p.display) + '\')">Join</button></div>').join('');
+  }
+  v.innerHTML = '<button class="btn" style="margin-bottom:12px" onclick="showPage(\'charts\')">‹ Charts</button>' +
+   '<div class="det"><div><div class="detbanner" style="' + coverGrad(g) + '"><span class="big">' + g.emoji + '</span><span class="shine"></span></div></div>' +
+   '<div><div style="font-size:27px;font-weight:800;line-height:1.15">' + esc(g.name) + '</div>' +
+   '<div class="mut" style="margin:5px 0 14px">By <b style="color:#fff">Raka-Craft</b> <span style="color:#57b6ff">✔</span> <span style="background:#1d4e79;border-radius:4px;padding:0 5px;font-size:11px;color:#bfe3ff">Verified</span></div>' +
+   '<button class="playbtn" onclick="playGame(\'' + id + '\')">▶</button>' +
+   '<div class="actrow"><button class="actbtn ' + (isFav ? 'on' : '') + '" onclick="toggleFav(\'' + id + '\')">⭐ Favorite<br><span class="mut small">' + fmtK(totFav) + '</span></button>' +
+   '<button class="actbtn" onclick="toast(\'🔔 Kamu sekarang mengikuti update ' + esc(g.name).replace(/'/g, '') + '!\')">🔔 Follow</button>' +
+   '<button class="actbtn up ' + (vt === 1 ? 'on' : '') + '" onclick="vote(\'' + id + '\',1)">👍 ' + r.pct + '%</button>' +
+   '<button class="actbtn dn ' + (vt === -1 ? 'on' : '') + '" onclick="vote(\'' + id + '\',-1)">👎</button></div>' +
+   '<div class="mut small" style="margin-top:10px;line-height:1.6">👤 <b style="color:#fff">' + fmtK(m.active) + '</b> sedang main • 👣 <b style="color:#fff">' + fmtK(m.visits) + '</b> visits<br>🖥️ Server size: <b style="color:#fff">' + m.size + '</b> • 🎭 ' + m.genre + '</div></div></div>' +
+   '<div class="subtabs">' + ['about','store','servers'].map(t => '<button class="' + (curDetailTab === t ? 'sel' : '') + '" onclick="curDetailTab=\'' + t + '\';renderDetail($(\'view\'),\'' + id + '\')">' + (t === 'about' ? 'About' : t === 'store' ? 'Store' : 'Servers') + '</button>').join('') + '</div>' + tabHtml;
+}
+function createServer(id){ toast('🔒 Private server dibuat! Masuk game…'); launchGame(id, { private:true, players: fakePlayers(1, id + 'priv') }); }
+function joinServer(id, host){ toast('Masuk server ' + host + '…'); launchGame(id, { players: fakePlayers(5, id) }); }
+
+/* ================= MARKETPLACE ================= */
+function openBuy(itemId){
+  const a = me(); const it = ITEMS.find(i => i.id === itemId); if(!it) return;
+  const owned = a.inv.includes(it.id);
+  $('buyCard').innerHTML = '<div style="font-size:52px">' + it.em + '</div><h3 style="margin:8px 0 3px">Buy Item</h3>' +
+   '<p style="margin:0 0 4px">Would you like to buy <b>“' + esc(it.name) + '”</b> for</p>' +
+   '<p style="font-size:19px;font-weight:800;color:#ffd94d;margin:0 0 6px">' + buxIcon() + ' ' + it.price + ' Rhikobux?</p>' +
+   '<p class="mut small">Saldo kamu: ' + a.robux.toLocaleString('id-ID') + ' Rhikobux' + (owned ? ' • <span style="color:#4fe07a">Sudah dimiliki ✓</span>' : '') + '</p>' +
+   (owned ? '<button class="btn white" style="width:100%;margin-top:10px" onclick="$(\'buyModal\').classList.add(\'hidden\');showPage(\'avatar\',\'' + it.cat + '\')">Pakai di Avatar</button>'
+     : (a.robux >= it.price ? '<button class="btn green" style="width:100%;margin-top:10px" onclick="confirmBuy(\'' + it.id + '\')">Buy Now</button>' : '<button class="btn" style="width:100%;margin-top:10px" onclick="$(\'buyModal\').classList.add(\'hidden\');openBux()">Rhikobux Kurang — Ambil Dulu</button>')) +
+   '<button class="btn" style="width:100%;margin-top:8px" onclick="$(\'buyModal\').classList.add(\'hidden\')">Cancel</button>';
+  $('buyModal').classList.remove('hidden');
+}
+function confirmBuy(itemId){
+  const a = me(); const it = ITEMS.find(i => i.id === itemId);
+  if(a.robux < it.price) return toast('Rhikobux kurang!');
+  setBux(a.robux - it.price); a.inv.push(it.id); saveDB();
+  $('buyModal').classList.add('hidden'); toast('🎉 ' + it.name + ' terbeli! Cek di Avatar Editor.');
+  pushNotif('🛒 Kamu membeli “' + it.name + '” seharga ' + it.price + ' Rhikobux.');
+  renderChrome(); if(curPage === 'market') showPage('market', it.cat);
+}
+function equip(itemId){
+  const a = me(); const it = ITEMS.find(i => i.id === itemId);
+  if(it.cat === 'hat' || it.cat === 'acc') a.eq[it.cat] = a.eq[it.cat] === it.id ? null : it.id;
+  else a.eq[it.cat] = it.id;
+  saveDB(); renderChrome(); if(curPage === 'avatar') showPage('avatar', it.cat); if(curPage === 'inventory') showPage('inventory');
+}
+function renderMarket(v, cat){
+  if(!CATS.some(c => c[0] === cat)) cat = 'hair';
+  const a = me();
+  v.innerHTML = '<h1 class="page">Marketplace</h1>' +
+   '<div class="cattabs">' + CATS.map(([k, label]) => '<button class="chipf ' + (cat === k ? 'sel' : '') + '" onclick="showPage(\'market\',\'' + k + '\')">' + label + '</button>').join('') + '</div>' +
+   '<div class="shopgrid">' + ITEMS.filter(i => i.cat === cat).map(it => { const owned = a.inv.includes(it.id); const on = a.eq[it.cat] === it.id;
+    return '<div class="shopitem"><div class="em">' + it.em + '</div><div class="nm">' + esc(it.name) + '</div>' +
+     '<div class="pr">' + (owned ? '<span style="color:#4fe07a">Dimiliki ✓</span>' : buxIcon('sm') + ' ' + it.price) + '</div>' +
+     (owned ? '<button class="owned" onclick="equip(\'' + it.id + '\')">' + (on ? '✓ Dipakai — Lepas' : 'Pakai') + '</button>' : '<button onclick="openBuy(\'' + it.id + '\')">Beli</button>') + '</div>'; }).join('') + '</div>' +
+   '<p class="mut small">Klik item buat lihat modal konfirmasi pembelian ala Roblox. Item yang dibeli masuk Inventory & bisa dipakai di Avatar Editor.</p>';
+}
+
+/* ================= AVATAR EDITOR & INVENTORY ================= */
+let avSpin = 0;
+function renderAvatarPage(v, cat){
+  if(!CATS.some(c => c[0] === cat)) cat = 'hair';
+  const a = me();
+  v.innerHTML = '<h1 class="page">Avatar Editor</h1><div class="det" style="grid-template-columns:1fr 1.4fr">' +
+   '<div class="card" style="text-align:center;margin:0"><div style="font-size:14px;font-weight:800" class="mut">CHARACTER VIEWPORT</div>' +
+   '<div id="avView" style="max-width:230px;margin:8px auto;transition:transform .3s">' + avatarSVG(a.eq, a.user) + '</div>' +
+   '<div style="display:flex;gap:7px;justify-content:center"><button class="btn" onclick="avSpin-=30;$(\'avView\').style.transform=\'rotateY(\'+avSpin+\'deg)\'">⟲ Putar Kiri</button><button class="btn" onclick="avSpin+=30;$(\'avView\').style.transform=\'rotateY(\'+avSpin+\'deg)\'">Putar Kanan ⟳</button></div>' +
+   '<div class="mut small" style="margin-top:9px">Kulit, baju & wajah ngikutin item yang kamu pakai di kanan.</div></div>' +
+   '<div><div class="cattabs">' + CATS.map(([k, label]) => '<button class="chipf ' + (cat === k ? 'sel' : '') + '" onclick="showPage(\'avatar\',\'' + k + '\')">' + label + '</button>').join('') + '</div>' +
+   '<div class="shopgrid">' + ITEMS.filter(i => i.cat === cat).map(it => { const owned = a.inv.includes(it.id); const on = a.eq[it.cat] === it.id;
+    return '<div class="shopitem"><div class="em">' + it.em + '</div><div class="nm">' + esc(it.name) + '</div>' +
+     (owned ? '<button class="' + (on ? '' : 'owned') + '" onclick="equip(\'' + it.id + '\')">' + (on ? '✓ Dipakai' : 'Pakai') + '</button>' : '<button class="owned" onclick="openBuy(\'' + it.id + '\')">🔒 ' + it.price + ' — Beli</button>') + '</div>'; }).join('') + '</div></div></div>';
+}
+function renderInventory(v){
+  const a = me();
+  v.innerHTML = '<h1 class="page">Inventory</h1><p class="mut" style="margin-top:-8px">' + a.inv.length + ' item kamu miliki. Pencet “Pakai” buat langsung dandani avatar.</p>' +
+   '<div class="shopgrid">' + a.inv.map(id => ITEMS.find(i => i.id === id)).filter(Boolean).map(it => { const on = a.eq[it.cat] === it.id;
+    return '<div class="shopitem"><div class="em">' + it.em + '</div><div class="nm">' + esc(it.name) + '</div><div class="pr"><span class="mut">' + catLabel(it.cat) + '</span></div><button class="' + (on ? '' : 'owned') + '" onclick="equip(\'' + it.id + '\')">' + (on ? '✓ Dipakai' : 'Pakai') + '</button></div>'; }).join('') + '</div>' +
+   (a.inv.length < ITEMS.length ? '<button class="btn white" onclick="showPage(\'market\',\'topi\')">🛍️ Ke Marketplace — tambah koleksi!</button>' : '');
+}
+
+/* ================= PROFILE ================= */
+function badgesOf(a){
+  const b = [['🌟','Pioneer','Akun Rhikoblox terdaftar'],['🎮','Pemain Aktif','Main ' + a.plays + ' kali']];
+  if(a.plays >= 25) b.push(['🏅','Veteran','25+ kali main']);
+  if(a.inv.length >= 10) b.push(['🛍️','Kolektor','Punya 10+ item']);
+  if(a.friends.length >= 5) b.push(['🤝','Supel','Punya 5+ teman']);
+  if(a.robux >= 1000) b.push(['💰','Sultan Rhikobux','Saldo 1.000+']);
+  if(a.favs.length >= 5) b.push(['⭐','Pecinta Game','5+ game favorit']);
+  return b;
+}
+function catLabel(cat){ const c = CATS.find(x => x[0] === cat); return c ? c[1] : cat; }
+function renderProfile(v){
+  const a = me();
+  const wearing = Object.entries(a.eq).filter(([k, id]) => id).map(([k, id]) => ITEMS.find(i => i.id === id)).filter(Boolean);
+  const lastG = a.recent[0] ? expById(a.recent[0]) : null;
+  v.innerHTML = '<div class="card" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">' +
+   '<div style="width:104px;height:104px;border-radius:50%;overflow:hidden;background:var(--rbx-bg-elevated);border:3px solid var(--rbx-border)">' + avatarSVG(a.eq, a.user) + '</div>' +
+   '<div style="width:110px">' + avatarSVG(a.eq, a.user) + '</div>' +
+   '<div style="flex:1;min-width:190px"><div style="font-size:25px;font-weight:800">' + esc(a.display) + '</div><div class="mut">@' + esc(a.user) + ' • <span style="color:#4fe07a">● Online</span>' + (lastG ? ' • Playing ' + esc(lastG.name) : '') + '</div>' +
+   '<div style="display:flex;gap:20px;margin-top:10px;font-size:14px"><span><b>' + a.friends.length + '</b> <span class="mut">Friends</span></span><span><b>' + a.followers.toLocaleString('id-ID') + '</b> <span class="mut">Followers</span></span><span><b>' + a.following + '</b> <span class="mut">Following</span></span></div></div></div>' +
+   '<div class="det" style="grid-template-columns:1.4fr 1fr"><div>' +
+   '<div class="card"><b>About</b><p class="mut" style="line-height:1.6;margin:7px 0 11px">' + esc(a.bio || 'Pemain Rhikoblox!') + '</p>' +
+   '<div style="display:flex;gap:7px;flex-wrap:wrap"><button class="btn" onclick="editProfile()">✏️ Edit Profil</button><button class="btn" onclick="changeUsername()">🔤 Ganti Username (1.000)</button><button class="btn red" onclick="logout()">🚪 Keluar</button></div></div>' +
+   '<div class="card"><b>🏆 Roblox Badges</b><div style="display:flex;gap:13px;flex-wrap:wrap;margin-top:10px">' + badgesOf(a).map(b => '<div style="text-align:center;width:82px"><div style="font-size:29px">' + b[0] + '</div><div style="font-weight:700;font-size:12px">' + b[1] + '</div><div class="mut" style="font-size:10.5px">' + b[2] + '</div></div>').join('') + '</div></div>' +
+   (a.favs.length ? '<h2 class="sec">Favorites</h2><div class="car">' + a.favs.map(expById).filter(Boolean).map(tile1).join('') + '</div>' : '') +
+   '</div><div><div class="card"><b>👕 Currently Wearing</b>' + (wearing.length ? wearing.map(it => '<div style="display:flex;gap:9px;align-items:center;margin-top:9px"><span style="font-size:21px">' + it.em + '</span><span>' + esc(it.name) + '</span><span class="mut small" style="margin-left:auto">' + catLabel(it.cat) + '</span></div>').join('') : '<p class="mut" style="margin:8px 0 0">Belum pakai item khusus — avatar bawaan.</p>') + '<button class="btn white" style="width:100%;margin-top:12px" onclick="showPage(\'avatar\',\'rambut\')">🧍 Buka Avatar Editor</button></div>' +
+   '<div class="card"><b>📊 Statistik</b><div class="mut" style="line-height:1.8;margin-top:7px">🎮 Total main: <b style="color:#fff">' + a.plays + '</b><br>🎒 Item: <b style="color:#fff">' + a.inv.length + '</b><br>📅 Bergabung: <b style="color:#fff">' + (typeof a.created === 'number' ? new Date(a.created).toLocaleDateString('id-ID') : a.created) + '</b></div></div></div></div>';
+}
+function editProfile(){
+  const a = me();
+  const d = prompt('Display name baru (gratis, bisa diganti kapan saja):', a.display); if(d === null) return;
+  if(!d.trim()) return toast('Display name tidak boleh kosong.');
+  const b = prompt('Bio profilmu:', a.bio || ''); if(b === null) return;
+  a.display = d.trim(); a.bio = b.trim(); saveDB(); renderChrome(); showPage('profile'); toast('Profil diperbarui! ✨');
+}
+function changeUsername(){
+  const a = me();
+  const n = prompt('Username BARU (biaya 1.000 Rhikobux — saldo kamu ' + a.robux + '):', a.user); if(n === null) return;
+  const nu = n.trim().toLowerCase();
+  if(!/^[a-z0-9_]{3,16}$/.test(nu)) return toast('Username: 3–16 huruf/angka/garis bawah.');
+  if(DB.accounts[nu]) return toast('Username itu sudah dipakai!');
+  if(a.robux < 1000) return toast('Rhikobux kurang buat ganti username (perlu 1.000). Nabung dulu dari main game!');
+  setBux(a.robux - 1000);
+  delete DB.accounts[DB.session]; a.user = nu; DB.accounts[nu] = a; DB.session = nu; saveDB();
+  renderChrome(); showPage('profile'); toast('Username diganti jadi @' + nu + ' 🎉');
+}
+
+/* ================= FRIENDS ================= */
+function addFriend(){
+  const a = me();
+  const name = ($('friendInput').value || '').trim(); if(!name) return toast('Tulis nama teman dulu ya.');
+  if(name.toLowerCase() === a.user || name.toLowerCase() === a.display.toLowerCase()) return toast('Itu nama kamu sendiri 😄');
+  if(a.friends.some(f => f.display.toLowerCase() === name.toLowerCase())) return toast(name + ' sudah jadi temanmu.');
+  const target = Object.values(DB.accounts).find(x => x.user === name.toLowerCase() || x.display.toLowerCase() === name.toLowerCase());
+  const f = target ? { display: target.display, user: target.user } : { display: name, user: name.toLowerCase().replace(/\s+/g, '_') };
+  a.friends.push(f); saveDB(); $('friendInput').value = '';
+  pushNotif('👥 ' + f.display + ' menerima permintaan temanmu. Sekarang kalian berteman!');
+  renderChrome(); showPage('friends'); toast('🎉 ' + f.display + ' sekarang temanmu!');
+}
+function removeFriend(user){
+  const a = me(); a.friends = a.friends.filter(f => f.user !== user); delete a.chats[user]; delete a.unread[user]; saveDB(); renderChrome(); showPage('friends');
+}
+function renderFriends(v){
+  const a = me();
+  v.innerHTML = '<h1 class="page">Friends</h1>' +
+   '<div style="display:flex;gap:8px;max-width:480px"><input class="fld" id="friendInput" placeholder="Tambah teman dari nama…" style="margin:0" onkeydown="if(event.key===\'Enter\')addFriend()"><button class="btn green" onclick="addFriend()">➕ Add</button></div>' +
+   '<p class="mut small">Nama yang cocok akun Rhikoblox di HP ini dipakai beneran; nama lain jadi pemain simulasi. Teman yang lagi “Playing” bisa kamu susul masuk gamenya!</p>' +
+   '<div style="margin-top:13px">' + (a.friends.length ? a.friends.map(f => { const s = friendStatus(f.user); const un = a.unread[f.user] || 0;
+     return '<div class="prow"><span class="av">' + friendAv(f) + '</span><div style="flex:1;min-width:0"><b>' + esc(f.display) + '</b> <span style="color:' + s.color + ';font-size:12px">● ' + s.label + '</span><div class="mut small">@' + esc(f.user) + '</div></div>' +
+     (s.game ? '<button class="btn green" onclick="openDetail(\'' + s.game + '\')">Join Game</button>' : '') +
+     '<button class="btn" onclick="openChatW(\'' + f.user + '\')">💬 Chat' + (un ? ' (' + un + ')' : '') + '</button>' +
+     '<button class="btn" onclick="raceVsFriend(\'' + f.user + '\')">🏎️ Balapan</button>' +
+     '<button class="btn red" onclick="removeFriend(\'' + f.user + '\')">Hapus</button></div>'; }).join('')
+    : '<p class="mut">Belum ada teman. Tambahkan dari nama di atas! 👆</p>') + '</div>';
+}
+
+/* ================= MESSAGES & CHAT WIDGET ================= */
+const BOTLINES = ['Halo! Lagi main apa? 😄','Aku baru selesai main, seru banget!','Mabar yuk! Pencet tombol Join Game / Balapan di daftar teman.','Rhikobuxku nambah banyak habis main game puzzle.','Kamu udah klaim bonus harian belum?','Avatar kamu keren! Beli di mana itu?','Ayoo ke Charts, ada game baru yang lagi trending!','GG! Skor kamu tinggi banget tadi.'];
+function botReply(f){
+  const h = hashStr(f.user + Date.now());
+  return BOTLINES[h % BOTLINES.length];
+}
+function threadOf(user){
+  const a = me(); a.chats[user] = a.chats[user] || [];
+  if(!a.chats[user].length){ const f = a.friends.find(x => x.user === user); a.chats[user].push({ from:'fr', text:'Halo ' + a.display + '! Aku ' + (f ? f.display : user) + ' 👋', t:Date.now() }); saveDB(); }
+  return a.chats[user];
+}
+function renderMessages(v){
+  const a = me();
+  v.innerHTML = '<h1 class="page">Messages</h1>' + (a.friends.length ? a.friends.map(f => { const th = a.chats[f.user] || []; const last = th[th.length - 1]; const un = a.unread[f.user] || 0;
+    return '<div class="prow"><span class="av">' + friendAv(f) + '</span><div style="flex:1;min-width:0"><b>' + esc(f.display) + '</b>' + (un ? ' <span style="background:#ff4655;border-radius:99px;font-size:11px;padding:1px 7px;font-weight:800">' + un + ' baru</span>' : '') + '<div class="mut small" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + (last ? esc(last.text) : 'Belum ada pesan — sapa duluan!') + '</div></div><button class="btn green" onclick="openChatW(\'' + f.user + '\')">Buka Chat</button></div>'; }).join('')
+   : '<p class="mut">Belum ada teman buat diajak chat. Tambah teman dulu di halaman Friends.</p>');
+}
+let chatWUser = null;
+function updateChatBdg(){ const a = me(); if(!a) return; const n = Object.values(a.unread || {}).reduce((s, x) => s + x, 0); const b = $('chatBdg'); if(b){ b.textContent = n; b.classList.toggle('hidden', !n); } }
+function toggleChatW(){
+  const p = $('chatPanelW'); const open = p.classList.contains('hidden');
+  p.classList.toggle('hidden', !open);
+  $('chatWidget').querySelector('#chatBar span:last-child').textContent = open ? '▾' : '▴';
+  if(open && !chatWUser) renderChatWList();
+}
+function renderChatWList(){
+  const a = me(); chatWUser = null;
+  $('chatWConv').classList.add('hidden'); $('chatWList').classList.remove('hidden');
+  $('chatWList').innerHTML = a.friends.length ? a.friends.map(f => { const un = a.unread[f.user] || 0;
+    return '<button class="row" style="display:flex;width:100%;gap:9px;align-items:center;background:none;border:none;border-bottom:1px solid var(--rbx-border);color:#fff;padding:9px;text-align:left" onclick="openChatW(\'' + f.user + '\')"><span class="av" style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--rbx-bg-elevated)">' + friendAv(f) + '</span><b>' + esc(f.display) + '</b>' + (un ? '<span style="margin-left:auto;background:#ff4655;border-radius:99px;font-size:11px;padding:1px 7px;font-weight:800">' + un + '</span>' : '') + '</button>'; }).join('')
+   : '<div class="mut" style="padding:13px">Belum ada teman. Tambah lewat halaman Friends!</div>';
+}
+function openChatW(user){
+  const a = me(); const f = a.friends.find(x => x.user === user); if(!f) return;
+  chatWUser = user; a.unread[user] = 0; saveDB(); updateChatBdg(); renderChrome();
+  $('chatWidget').classList.remove('hidden'); $('chatPanelW').classList.remove('hidden');
+  $('chatWList').classList.add('hidden'); $('chatWConv').classList.remove('hidden');
+  $('chatWName').textContent = f.display; drawChatW();
+  if(curPage === 'messages') showPage('messages');
+}
+function backChatW(){ renderChatWList(); }
+function drawChatW(){
+  const th = threadOf(chatWUser);
+  $('chatWMsgs').innerHTML = th.map(m => '<div class="msgb ' + (m.from === 'me' ? 'me' : 'fr') + '">' + esc(m.text) + '</div>').join('');
+  $('chatWMsgs').scrollTop = 99999;
+}
+function sendChatW(){
+  const inp = $('chatWIn'); const txt = inp.value.trim(); if(!txt || !chatWUser) return;
+  const a = me(); threadOf(chatWUser).push({ from:'me', text: txt, t: Date.now() }); inp.value = ''; saveDB(); drawChatW();
+  const f = a.friends.find(x => x.user === chatWUser);
+  setTimeout(() => { threadOf(chatWUser).push({ from:'fr', text: botReply(f), t: Date.now() }); saveDB(); if(chatWUser && !$('chatPanelW').classList.contains('hidden')) drawChatW(); }, 900);
+}
+
+/* ================= GROUPS & TRADE & CREATE ================= */
+const GROUPS = [
+  { n:'Raka-Craft Official', m:'12,4K', d:'Grup resmi pembuat Rhikoblox. Info update & event!' },
+  { n:'Pecinta Obby Indonesia', m:'8,1K', d:'Buat yang hobi lompat-lompat sampai finis.' },
+  { n:'Klub Balap Rhiko', m:'3,7K', d:'Turnamen Balap Rhiko GP tiap minggu.' },
+  { n:'Pemburu Rhikobux', m:'5,9K', d:'Tips farming Rhikobux dari semua game.' },
+  { n:'Pecinta Puzzle', m:'2,2K', d:'2048, Sudoku, Hanoi — otak encer semua.' } ];
+function renderGroups(v){
+  const a = me();
+  v.innerHTML = '<h1 class="page">Groups</h1>' + GROUPS.map(g => { const joined = a.groupsJoined.includes(g.n);
+   return '<div class="prow"><span style="font-size:29px">🛡️</span><div style="flex:1"><b>' + g.n + '</b><div class="mut small">' + g.m + ' anggota • ' + g.d + '</div></div><button class="btn ' + (joined ? '' : 'green') + '" onclick="toggleGroup(\'' + g.n.replace(/'/g, '') + '\')">' + (joined ? '✓ Bergabung' : 'Join') + '</button></div>'; }).join('');
+}
+function toggleGroup(n){
+  const a = me(); const i = a.groupsJoined.indexOf(n);
+  if(i >= 0){ a.groupsJoined.splice(i, 1); toast('Keluar dari grup ' + n); } else { a.groupsJoined.push(n); toast('Bergabung ke ' + n + ' 🛡️'); pushNotif('🛡️ Kamu bergabung ke grup ' + n + '.'); }
+  saveDB(); showPage('groups');
+}
+let tradeSel = { item: null, friend: null };
+function renderTrade(v){
+  const a = me();
+  v.innerHTML = '<h1 class="page">Trade</h1><p class="mut" style="margin-top:-8px">Tukar salah satu itemmu dengan Rhikobux dari teman. Teman menawar otomatis — kalau kamu terima, item berpindah dan Rhikobux masuk!</p>' +
+   '<div class="card"><b>1️⃣ Pilih teman</b><div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:9px">' + (a.friends.length ? a.friends.map(f => '<button class="chipf ' + (tradeSel.friend === f.user ? 'sel' : '') + '" onclick="tradeSel.friend=\'' + f.user + '\';showPage(\'trade\')">👤 ' + esc(f.display) + '</button>').join('') : '<span class="mut">Belum ada teman.</span>') + '</div></div>' +
+   '<div class="card"><b>2️⃣ Pilih itemmu</b><div class="shopgrid" style="margin-top:10px">' + a.inv.map(id => ITEMS.find(i => i.id === id)).filter(Boolean).map(it => '<div class="shopitem" style="' + (tradeSel.item === it.id ? 'border-color:#ffd94d' : '') + '"><div class="em">' + it.em + '</div><div class="nm">' + esc(it.name) + '</div><button class="owned" onclick="tradeSel.item=\'' + it.id + '\';showPage(\'trade\')">' + (tradeSel.item === it.id ? '✓ Dipilih' : 'Pilih') + '</button></div>').join('') + '</div></div>' +
+   '<button class="btn green" style="width:100%;padding:13px" onclick="doTrade()">🤝 Kirim Tawaran Trade</button>';
+}
+function doTrade(){
+  const a = me();
+  if(!tradeSel.friend) return toast('Pilih teman dulu ya.');
+  if(!tradeSel.item) return toast('Pilih item yang mau ditukar dulu ya.');
+  const it = ITEMS.find(i => i.id === tradeSel.item); const f = a.friends.find(x => x.user === tradeSel.friend);
+  const offer = Math.round(it.price * (0.7 + (hashStr(it.id + Date.now()) % 50) / 100));
+  if(!confirm(f.display + ' menawar ' + offer + ' Rhikobux buat “' + it.name + '”. Terima tawaran ini?')) return;
+  a.inv = a.inv.filter(id => id !== it.id);
+  if(a.eq[it.cat] === it.id) a.eq[it.cat] = null;
+  addBux(offer); tradeSel = { item: null, friend: null }; saveDB(); renderChrome();
+  pushNotif('🔄 Trade berhasil: “' + it.name + '” ditukar ' + offer + ' Rhikobux dengan ' + f.display + '.');
+  toast('🤝 Trade berhasil! +' + offer + ' Rhikobux'); showPage('inventory');
+}
+function renderCreate(v){
+  v.innerHTML = '<h1 class="page">Create</h1>' +
+   '<div class="card"><div style="font-size:32px">⛏️</div><b style="font-size:17px">XCraft — Kreasi Utamamu</b><p class="mut" style="line-height:1.6">Game balok buatanmu sendiri, tertanam penuh di Rhikoblox dan jadi experience nomor 1 di Charts. Dunia pemain tersimpan otomatis.</p><button class="btn green" onclick="openDetail(\'xcraft\')">Buka Halaman XCraft</button></div>' +
+   '<div class="card"><b>📦 Draf Experience</b><p class="mut" style="line-height:1.6">Punya ide game baru? Simpan drafnya di sini — draf tersimpan di profil studionmu.</p>' +
+   '<input class="fld" id="dr-name" placeholder="Nama game draf…"><input class="fld" id="dr-desc" placeholder="Deskripsi singkat…"><button class="btn white" onclick="saveDraft()">💾 Simpan Draf</button>' +
+   '<div id="draftList" style="margin-top:11px">' + (me().drafts || []).map(d => '<div class="passrow"><span class="ic">📝</span><div><b>' + esc(d.n) + '</b><div class="mut small">' + esc(d.d) + '</div></div></div>').join('') + '</div></div>';
+}
+function saveDraft(){
+  const a = me(); const n = $('dr-name').value.trim(); if(!n) return toast('Isi nama draf dulu.');
+  a.drafts = a.drafts || []; a.drafts.push({ n, d: $('dr-desc').value.trim() }); saveDB(); showPage('create'); toast('Draf tersimpan 📝');
+}
+
+/* ================= PLAYER: LOADING, HUD, ESC ================= */
+let CUR = null;
+function gameBox(){
+  let b = $('gameBox');
+  if(!b){ b = document.createElement('div'); b.id = 'gameBox'; b.style.cssText = 'position:absolute;inset:0;overflow:auto'; $('stage').insertBefore(b, $('stage').firstChild); }
+  return b;
+}
+function playGame(id){ launchGame(id, { players: fakePlayers(4, id) }); }
+function raceVsFriend(user){
+  const a = me(); const f = a.friends.find(x => x.user === user); if(!f) return;
+  const acc = DB.accounts[f.user];
+  const avObj = acc ? acc.eq : (f.avatar || fakeAvatarFor(f.user));
+  launchGame('racing', { mode:'vs', vs:{ display: f.display, user: f.user, avatar: avObj }, players:[{ display: f.display, user: f.user, avatar: avObj }] });
+}
+function launchGame(id, opts){
+  opts = opts || {};
+  const a = me(); const g = expById(id); if(!g) return;
+  cleanupStage();
+  const players = [{ me:true, display: a.display, user: a.user, avatar: a.eq, score: null }]
+    .concat((opts.players || []).map(p => ({ display: p.display, user: p.user, avatar: p.avatar, score: Math.floor(Math.random() * 25) })));
+  CUR = { id, opts, players, ended: false, boardTimer: null, escTab: 'people' };
+  a.recent = [id].concat(a.recent.filter(x => x !== id)).slice(0, 8); saveDB();
+  $('player').classList.remove('hidden');
+  document.querySelectorAll('#unibar,#board,#chatPanel,#escMenu').forEach(el => el.classList.add('hidden'));
+  $('loadBg').innerHTML = '<div style="width:100%;height:100%;filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:170px;' + coverGrad(g, true) + '">' + g.emoji + '</div>';
+  $('loadTitle').textContent = g.name;
+  $('loadScr').classList.remove('hidden');
+  applyGraphics();
+  CUR.loadTimer = setTimeout(() => {
+    $('loadScr').classList.add('hidden');
+    $('unibar').classList.remove('hidden'); $('board').classList.remove('hidden');
+    renderBoard(); startBoardTicks(); initGameChat(g);
+    beginContent(id, opts);
+  }, 1500);
+}
+function beginContent(id, opts){
+  if(CUR && opts) CUR.opts = opts;
+  const box = gameBox(); const a = me();
+  const api = { end(points){
+    if(!CUR || CUR.ended) return; CUR.ended = true;
+    points = Math.max(0, Math.min(100, Math.round(points || 0)));
+    let reward = points <= 0 ? 0 : Math.max(2, Math.round(points / 4));
+    let x2 = false;
+    if((a.passes[id] || []).includes('x2')){ reward *= 2; x2 = true; }
+    a.plays++; addBux(reward); saveDB();
+    const meRow = CUR.players[0]; if(meRow) meRow.score = points; renderBoard();
+    $('resTitle').textContent = expById(id).name + ' — Selesai!';
+    $('resText').innerHTML = 'Skor kamu: <b style="color:#fff">' + points + '</b> poin<br>Hadiah: <b style="color:#ffd94d">+' + reward + ' Rhikobux</b>' + (x2 ? ' (Hadiah Ganda x2 aktif!)' : '') + '<br>Saldo sekarang: ' + a.robux.toLocaleString('id-ID') + ' Rhikobux';
+    $('resultModal').classList.remove('hidden'); renderChrome();
+  }};
+  CUR.api = api;
+  if(id === 'xcraft'){
+    box.innerHTML = '<iframe id="xframe" src="xcraft.html" title="XCraft"></iframe>';
+  } else if(id === 'racing'){
+    if(opts.mode === 'vs' && opts.vs){ window.__raceStage = box; playEnded = false; window.__raceEnd = pts => api.end(pts); startRace(opts.vs.display); }
+    else if(opts.mode === 'bot'){ window.__raceStage = box; playEnded = false; window.__raceEnd = pts => api.end(pts); startRace(null); }
+    else {
+      box.innerHTML = '<div style="min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;padding:20px;text-align:center;background:linear-gradient(135deg,#14342a,#0d1f2e)"><div style="font-size:56px">🏎️</div><h2 style="margin:0">Balap Rhiko GP</h2><p class="mut" style="margin:0">Balapan sampai 1.000 meter. Lawan siapa?</p>' +
+       '<button class="btn green" style="width:230px;padding:13px" onclick="beginContent(\'racing\',{mode:\'bot\'})">🤖 Lawan Bot</button>' +
+       (a.friends.length ? a.friends.map(f => '<button class="btn" style="width:230px;padding:13px" onclick="raceAgainVs(\'' + f.user + '\')">👤 Lawan ' + esc(f.display) + '</button>').join('') : '<p class="mut small">Belum ada teman — tambah teman di halaman Friends buat balapan bareng!</p>') + '</div>';
+    }
+  } else {
+    const g = RGAMES.find(x => x.id === id);
+    if(g){ try{ g.play(box, api); }catch(e){ box.innerHTML = '<div style="padding:26px;text-align:center">😅 Game ini lagi error. Coba game lain dulu ya.<br><br><button class="btn" onclick="leaveGame()">Kembali</button></div>'; } }
+  }
+}
+function raceAgainVs(user){ cleanupStage(true); const a = me(); const f = a.friends.find(x => x.user === user); const acc = f && DB.accounts[f.user]; const avObj = acc ? acc.avatar : (f ? (f.avatar || fakeAvatarFor(f.user)) : fakeAvatarFor(user)); CUR.opts = { mode:'vs', vs:{ display: f ? f.display : user, user, avatar: avObj } }; CUR.ended = false; beginContent('racing', CUR.opts); }
+function renderBoard(){
+  if(!CUR) return;
+  const a = me(); const vip = (a.passes[CUR.id] || []).includes('vip');
+  $('board').innerHTML = '<div class="h">👥 PEMAIN — ' + esc(expById(CUR.id).name) + '</div>' + CUR.players.map(p =>
+    '<div class="pr"><span class="av">' + avatarSVG(p.avatar, p.user) + '</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;' + (p.me && vip ? 'color:#ffd94d;font-weight:800' : '') + '">' + (p.me && vip ? '⭐ ' : '') + esc(p.display) + (p.me ? ' (Kamu)' : '') + '</span><span class="sc">' + (p.score == null ? '—' : p.score) + '</span></div>').join('');
+}
+function startBoardTicks(){
+  stopBoardTicks();
+  CUR.boardTimer = setInterval(() => { if(!CUR) return; CUR.players.forEach(p => { if(!p.me && p.score != null && Math.random() < .6) p.score = Math.min(100, p.score + Math.floor(Math.random() * 6)); }); renderBoard(); }, 2200);
+}
+function stopBoardTicks(){ if(CUR && CUR.boardTimer){ clearInterval(CUR.boardTimer); CUR.boardTimer = null; } }
+function initGameChat(g){
+  $('chatLog').innerHTML = '<div class="sys">Selamat datang di ' + esc(g.name) + '! 🎉</div>' + (CUR.players.slice(1, 3).map(p => '<div><b>' + esc(p.display) + ':</b> ' + ['Halo semua! 👋','GLHF! Semoga menang ya!','Server ini seru banget!'][hashStr(p.user) % 3] + '</div>').join(''));
+}
+function toggleGameChat(){ $('chatPanel').classList.toggle('hidden'); const i = $('gchatIn'); if(i && !$('chatPanel').classList.contains('hidden')) i.focus(); }
+function sendGameChat(){
+  const inp = $('gchatIn'); const txt = inp.value.trim(); if(!txt || !CUR) return;
+  $('chatLog').innerHTML += '<div><b>' + esc(me().display) + ':</b> ' + esc(txt) + '</div>';
+  $('chatLog').scrollTop = 99999; inp.value = '';
+  const others = CUR.players.slice(1);
+  if(others.length && Math.random() < .75){ const p = others[Math.floor(Math.random() * others.length)];
+    setTimeout(() => { if(!CUR) return; $('chatLog').innerHTML += '<div><b>' + esc(p.display) + ':</b> ' + ['Setuju! 😄','Wkwk iya','Siap, gas!','Keren!'][Math.floor(Math.random() * 4)] + '</div>'; $('chatLog').scrollTop = 99999; }, 800); }
+}
+/* ===== ESC MENU ===== */
+function toggleEsc(show){
+  const m = $('escMenu');
+  if(show === undefined) show = m.classList.contains('hidden');
+  if(!show){ m.classList.add('hidden'); return; }
+  renderEsc(); m.classList.remove('hidden');
+}
+function renderEsc(){
+  if(!CUR) return;
+  const a = me(); const s = a.settings; const tab = CUR.escTab;
+  let body = '';
+  if(tab === 'people'){
+    body = CUR.players.map(p => '<div class="prow" style="margin:0 0 8px"><span class="av">' + avatarSVG(p.avatar, p.user) + '</span><div style="flex:1"><b>' + esc(p.display) + '</b>' + (p.me ? ' <span class="mut small">(Kamu)</span>' : '') + '<div class="mut small">@' + esc(p.user) + (p.score != null ? ' • Skor ' + p.score : '') + '</div></div>' +
+     (p.me ? '' : '<button class="btn" onclick="inspectPlayer(\'' + p.user + '\')">🔍 Inspect</button>' + (a.friends.some(f => f.user === p.user) ? '<span class="mut small">Teman ✓</span>' : '<button class="btn green" onclick="escAddFriend(\'' + p.user + '\')">➕ Add Friend</button>')) + '</div>').join('');
+  } else if(tab === 'settings'){
+    body = '<div class="setrow">Shift Lock Switch <span class="ctl"><button class="switch ' + (s.shift ? 'on' : '') + '" onclick="setSetting(\'shift\',!me().settings.shift);renderEsc()"></button></span></div>' +
+     '<div class="setrow">Mode Kamera <span class="ctl"><select class="fld" style="margin:0;padding:7px;width:130px" onchange="setSetting(\'cam\',this.value)"><option ' + (s.cam === 'Klasik' ? 'selected' : '') + '>Klasik</option><option ' + (s.cam === 'Ikuti' ? 'selected' : '') + '>Ikuti</option><option ' + (s.cam === 'Bebas' ? 'selected' : '') + '>Bebas</option></select></span></div>' +
+     '<div class="setrow">Kualitas Grafis (1–10) <span class="ctl"><input type="range" min="1" max="10" value="' + s.graphics + '" onchange="setSetting(\'graphics\',+this.value);applyGraphics();renderEsc()"> <b>' + s.graphics + '</b></span></div>' +
+     '<div class="setrow">Volume <span class="ctl"><input type="range" min="0" max="100" value="' + s.volume + '" onchange="setSetting(\'volume\',+this.value);renderEsc()"> <b>' + s.volume + '%</b></span></div>' +
+     '<div class="setrow">Fullscreen <span class="ctl"><button class="btn" onclick="toggleFS()">⛶ Toggle</button></span></div>';
+  } else {
+    body = '<div style="padding:14px 16px;line-height:1.85;font-size:14px" class="mut">' +
+     '⌨️ <b style="color:#fff">ESC</b> — Buka/tutup menu ini<br>⌨️ <b style="color:#fff">Tab</b> — Sembunyikan/tampilkan papan skor<br>⌨️ <b style="color:#fff">R</b> — Reset Character (di menu ini)<br>⌨️ <b style="color:#fff">L</b> — Leave Game (di menu ini)<br>🖱️ Ikuti petunjuk di tiap game — kebanyakan game cukup dipencet/diklik atau tombol panah.<br>💬 Pencet ikon gelembung di kiri atas buat chat sama pemain server.</div>';
+  }
+  $('escMenu').innerHTML = '<div class="esccard"><div style="padding:14px 16px 4px;font-weight:800;font-size:17px">' + esc(expById(CUR.id).name) + '</div>' +
+   '<div class="subtabs" style="margin:6px 10px 8px">' + [['people','People'],['settings','Settings'],['help','Help']].map(t => '<button class="' + (tab === t[0] ? 'sel' : '') + '" onclick="CUR.escTab=\'' + t[0] + '\';renderEsc()">' + t[1] + '</button>').join('') + '</div>' +
+   '<div style="overflow-y:auto;padding:4px 13px">' + body + '</div>' +
+   '<div class="escbtns"><button onclick="resetChar()">↺ Reset Character (R)</button><button onclick="leaveGame()">🚪 Leave Game (L)</button><button onclick="toggleEsc(false)">▶ Resume (ESC)</button></div></div>';
+}
+function escAddFriend(user){
+  const a = me(); const p = CUR.players.find(x => x.user === user); if(!p || a.friends.some(f => f.user === user)) return;
+  a.friends.push({ display: p.display, user: p.user, avatar: p.avatar }); saveDB(); renderChrome(); renderEsc(); toast('👥 ' + p.display + ' jadi temanmu!');
+}
+function inspectPlayer(user){
+  const p = CUR ? CUR.players.find(x => x.user === user) : null; if(!p) return;
+  $('inspectCard').innerHTML = '<h3 style="margin:0 0 4px">' + esc(p.display) + '</h3><div class="mut small">@' + esc(p.user) + '</div>' +
+   '<div style="max-width:190px;margin:12px auto">' + avatarSVG(p.avatar, p.user, true) + '</div>' +
+   '<button class="btn" style="width:100%" onclick="$(\'inspectModal\').classList.add(\'hidden\')">Tutup</button>';
+  $('inspectModal').classList.remove('hidden');
+}
+function applyGraphics(){
+  const q = me() ? me().settings.graphics : 7;
+  const b = gameBox();
+  b.style.filter = q <= 3 ? 'brightness(.94) contrast(.92)' : q >= 9 ? 'brightness(1.04) saturate(1.12)' : '';
+}
+function toggleFS(){
+  if(document.fullscreenElement) document.exitFullscreen();
+  else { const el = $('player'); if(el.requestFullscreen) el.requestFullscreen(); }
+}
+function resetChar(){ toggleEsc(false); if(CUR) relaunchCur(); }
+function relaunchCur(){
+  const id = CUR.id, opts = CUR.opts;
+  cleanupStage(); CUR = null;
+  launchGame(id, opts);
+}
+function cleanupStage(keepPlayer){
+  if(raceRAF){ cancelAnimationFrame(raceRAF); raceRAF = null; }
+  raceState = null; window.__raceStage = null; window.__raceEnd = null;
+  stopBoardTicks();
+  if(CUR && CUR.loadTimer){ clearTimeout(CUR.loadTimer); CUR.loadTimer = null; }
+  const b = $('gameBox'); if(b) b.innerHTML = '';
+  $('resultModal').classList.add('hidden');
+  const em = $('escMenu'); if(em) em.classList.add('hidden');
+}
+function leaveGame(){
+  const id = CUR ? CUR.id : null;
+  cleanupStage(); CUR = null;
+  $('player').classList.add('hidden');
+  if(document.fullscreenElement) document.exitFullscreen();
+  renderChrome();
+  if(id) openDetail(id); else showPage('home');
+}
+function replayGame(){ $('resultModal').classList.add('hidden'); if(CUR) relaunchCur(); }
+function closeResult(){ $('resultModal').classList.add('hidden'); leaveGame(); }
+document.addEventListener('keydown', e => {
+  if(!CUR || $('player').classList.contains('hidden')) return;
+  const escOpen = !$('escMenu').classList.contains('hidden');
+  if(e.key === 'Escape'){ e.preventDefault(); toggleEsc(!escOpen); }
+  else if(e.key === 'Tab'){ e.preventDefault(); $('board').classList.toggle('hidden'); }
+  else if(escOpen && (e.key === 'l' || e.key === 'L')) leaveGame();
+  else if(escOpen && (e.key === 'r' || e.key === 'R')) resetChar();
+});
+
+/* ================= BALAPAN (mesin v1, diadaptasi ke panggung v2) ================= */
 function startRace(friendName){
-  const stage = document.getElementById('stage');
+  const stage = window.__raceStage;
   const a = me();
   const rivals = [];
   if (friendName){
@@ -567,7 +1286,7 @@ function startRace(friendName){
       else pts = Math.round((R.dist/1000)*80);
       pts = Math.min(100, pts + Math.min(10, R.near));
       const place = sorted.findIndex(p=>p.col==='#00a2ff') + 1;
-      setTimeout(()=>{ if (!playEnded){ playEnded = true; endWithResult(pts, 'Balap Rhiko GP — Posisi ' + place); } }, 500);
+      setTimeout(()=>{ if (!playEnded){ playEnded = true; if(window.__raceEnd) window.__raceEnd(pts); } }, 500);
       ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(0,0,W,H);
       ctx.fillStyle = '#fff'; ctx.font = 'bold 30px Arial'; ctx.fillText(winner ? (winner.col==='#00a2ff' ? '🏆 KAMU MENANG!' : esc(winner.name) + ' MENANG') : '⏰ WAKTU HABIS', W/2, H/2);
       return;
@@ -577,12 +1296,17 @@ function startRace(friendName){
   raceRAF = requestAnimationFrame(frame);
 }
 
-/* ================= BOOT ================= */
-function boot(){ if (DB.session && DB.accounts[DB.session]) enterApp(); }
+
+/* ================= MASUK APLIKASI & BOOT ================= */
+function enterApp(){
+  $('auth').classList.add('hidden');
+  $('app').classList.remove('hidden');
+  $('chatWidget').classList.remove('hidden');
+  renderChrome();
+  showPage('home');
+}
+buildExp();
+if(DB.session && DB.accounts[DB.session]) enterApp();
 </script>
-<script src="games_a.js"></script>
-<script src="games_b.js"></script>
-<script src="games_c.js"></script>
-<script>boot();</script>
 </body>
 </html>
