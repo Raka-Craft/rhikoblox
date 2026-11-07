@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Rhikoblox</title>
+<style>
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { margin:0; padding:0; background:#101218; color:#eef1ff; font-family:'Segoe UI',Arial,sans-serif; }
+button { font-family:inherit; cursor:pointer; }
+input,textarea { font-family:inherit; }
+.hidden { display:none !important; }
+/* ===== AUTH ===== */
+#auth { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; background:radial-gradient(1000px 500px at 50% -10%, #2b3f66, #101218); }
+.logo { font-size:44px; font-weight:900; letter-spacing:1px; }
+.logo .r { color:#ff4655; } .logo .b { color:#00a2ff; }
+.tagline { color:#9fb2d8; margin:4px 0 20px; font-size:14px; }
+.authcard { background:#1a1d29; border:1px solid #2e3247; border-radius:16px; padding:20px; width:100%; max-width:360px; box-shadow:0 18px 40px rgba(0,0,0,.5); }
+.authtabs { display:flex; gap:8px; margin-bottom:14px; }
+.authtabs button { flex:1; padding:11px; border-radius:10px; border:1px solid #39406b; background:#12141f; color:#aebadd; font-weight:800; }
+.authtabs button.sel { background:#00a2ff; border-color:#00a2ff; color:#fff; }
+.fld { width:100%; padding:12px; border-radius:10px; border:1.5px solid #39406b; background:#12141f; color:#fff; font-size:16px; outline:none; margin-bottom:10px; }
+.fld:focus { border-color:#00a2ff; }
+.bigbtn { width:100%; padding:13px; border:none; border-radius:11px; background:linear-gradient(180deg,#38c172,#1d9e57); color:#fff; font-size:17px; font-weight:900; box-shadow:0 4px 0 #146c3c; }
+.bigbtn:active { transform:translateY(2px); box-shadow:0 2px 0 #146c3c; }
+.authnote { color:#8d99bd; font-size:12px; text-align:center; margin-top:12px; line-height:1.5; }
+/* ===== SHELL ===== */
+#topbar { position:sticky; top:0; z-index:40; display:flex; align-items:center; gap:10px; padding:9px 12px; background:rgba(16,18,24,.96); border-bottom:1px solid #262a3d; }
+#topbar .logo { font-size:22px; }
+.robuxpill { margin-left:auto; display:flex; align-items:center; gap:6px; background:#23263a; border:1px solid #39406b; padding:6px 12px; border-radius:999px; font-weight:900; }
+.robuxpill .ric { width:18px; height:18px; border-radius:5px; background:linear-gradient(135deg,#cfd6e4,#8f9bb3); display:inline-block; transform:rotate(45deg); border:2px solid #e8edf7; }
+#avatarBtn { width:42px; height:42px; border-radius:50%; border:2px solid #00a2ff; background:#23263a; overflow:hidden; padding:0; }
+#avatarBtn svg { width:100%; height:100%; }
+#nav { position:sticky; top:60px; z-index:39; display:flex; gap:6px; padding:8px 10px; background:rgba(16,18,24,.96); border-bottom:1px solid #262a3d; }
+#nav button { flex:1; padding:9px 4px; border-radius:9px; border:1px solid #2e3247; background:#171a28; color:#aebadd; font-weight:800; font-size:13px; }
+#nav button.sel { background:#00a2ff; color:#fff; border-color:#00a2ff; }
+.view { padding:14px 12px 90px; max-width:760px; margin:0 auto; }
+h2.sec { font-size:19px; margin:16px 2px 10px; }
+/* katalog */
+.feat { position:relative; border-radius:16px; overflow:hidden; margin-bottom:12px; border:1px solid #2e3247; min-height:118px; display:flex; align-items:flex-end; }
+.feat .info { position:relative; z-index:2; padding:12px; width:100%; background:linear-gradient(0deg, rgba(0,0,0,.72), transparent); }
+.feat .t { font-size:21px; font-weight:900; } .feat .d { font-size:13px; color:#cdd7f2; }
+.playbtn { position:absolute; right:12px; bottom:12px; z-index:3; background:#00b06f; color:#fff; border:none; padding:11px 20px; border-radius:10px; font-weight:900; font-size:15px; box-shadow:0 4px 0 #087a4c; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:10px; }
+.tile { background:#1a1d29; border:1px solid #2e3247; border-radius:13px; overflow:hidden; text-align:left; padding:0; color:#eef1ff; }
+.tile .cover { height:78px; position:relative; display:flex; align-items:center; justify-content:center; font-size:40px; }
+.tile .nm { padding:7px 8px 2px; font-weight:800; font-size:13px; line-height:1.2; }
+.tile .ds { padding:0 8px 8px; font-size:11px; color:#8d99bd; line-height:1.3; }
+/* kartu umum */
+.card { background:#1a1d29; border:1px solid #2e3247; border-radius:14px; padding:14px; margin-bottom:12px; }
+.btn { padding:10px 16px; border-radius:10px; border:1px solid #39406b; background:#23263a; color:#eef1ff; font-weight:800; }
+.btn.blue { background:#00a2ff; border-color:#00a2ff; color:#fff; }
+.btn.green { background:#00b06f; border-color:#00b06f; color:#fff; }
+.btn.red { background:#3a1f28; border-color:#7c3040; color:#ff8b96; }
+.btn:disabled { opacity:.45; }
+/* pasar */
+.shopgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:10px; }
+.shopitem { background:#171a28; border:1px solid #2e3247; border-radius:12px; padding:10px 8px; text-align:center; }
+.shopitem .em { font-size:34px; }
+.shopitem .nm { font-weight:800; font-size:12.5px; min-height:30px; }
+.shopitem .pr { color:#ffd94d; font-weight:900; font-size:13px; margin:2px 0 7px; }
+.shopitem button { width:100%; padding:8px 4px; border-radius:8px; border:none; font-weight:900; font-size:13px; background:#00b06f; color:#fff; }
+.shopitem button.owned { background:#39406b; }
+.shopitem button.equip { background:#00a2ff; }
+.cattabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+.cattabs button { padding:8px 13px; border-radius:999px; border:1px solid #39406b; background:#12141f; color:#aebadd; font-weight:800; font-size:13px; }
+.cattabs button.sel { background:#ffd94d; color:#221a00; border-color:#ffd94d; }
+/* teman & profil */
+.frow { display:flex; align-items:center; gap:11px; background:#171a28; border:1px solid #2e3247; border-radius:12px; padding:9px 11px; margin-bottom:8px; }
+.frow .av { width:46px; height:46px; border-radius:50%; overflow:hidden; background:#23263a; border:2px solid #39406b; flex:none; }
+.frow .av svg { width:100%; height:100%; }
+.toast { position:fixed; left:50%; bottom:26px; transform:translateX(-50%); background:#23263a; border:1px solid #39406b; color:#fff; padding:11px 18px; border-radius:999px; font-weight:800; z-index:99; box-shadow:0 10px 26px rgba(0,0,0,.5); max-width:88vw; text-align:center; }
+/* player */
+#player { position:fixed; inset:0; z-index:60; background:#0b0d13; display:flex; flex-direction:column; }
+#playerBar { display:flex; align-items:center; gap:10px; padding:9px 12px; background:#14161f; border-bottom:1px solid #262a3d; }
+#stage { flex:1; position:relative; overflow:hidden; }
+#xframe { width:100%; height:100%; border:none; background:#000; }
+.modal { position:fixed; inset:0; z-index:80; background:rgba(4,6,10,.72); display:flex; align-items:center; justify-content:center; padding:20px; }
+.modalcard { background:#1d2030; border:1px solid #39406b; border-radius:18px; padding:22px; width:100%; max-width:340px; text-align:center; box-shadow:0 22px 50px rgba(0,0,0,.6); }
+</style>
+</head>
+<body>
+
+<!-- ================= AUTH ================= -->
+<div id="auth">
+  <div class="logo"><span class="r">RHIKO</span><span class="b">BLOX</span></div>
+  <div class="tagline">Mainkan 52 game seru, kumpulkan Robux, dandani avatarmu!</div>
+  <div class="authcard">
+    <div class="authtabs">
+      <button id="tab-login" class="sel" onclick="authTab('login')">MASUK</button>
+      <button id="tab-signup" onclick="authTab('signup')">DAFTAR</button>
+    </div>
+    <div id="form-signup" class="hidden">
+      <input class="fld" id="su-user" placeholder="Username (untuk login, tidak bisa diganti gratis)" maxlength="16" autocomplete="off">
+      <input class="fld" id="su-display" placeholder="Display name (nama tampilan, bisa diganti kapan saja)" maxlength="20" autocomplete="off">
+      <input class="fld" id="su-pass" type="password" placeholder="Password">
+      <button class="bigbtn" onclick="doSignup()">DAFTAR & MAIN</button>
+      <div class="authnote">Username adalah nama aslimu di Rhikoblox.<br>Menggantinya nanti berharga <b>1.000 Robux</b> — pilih yang bagus!</div>
+    </div>
+    <div id="form-login">
+      <input class="fld" id="li-user" placeholder="Username" maxlength="16" autocomplete="off">
+      <input class="fld" id="li-pass" type="password" placeholder="Password">
+      <button class="bigbtn" onclick="doLogin()">MASUK</button>
+      <div class="authnote">Belum punya akun? Pencet tab <b>DAFTAR</b> di atas.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden">
+  <div id="topbar">
+    <div class="logo"><span class="r">RHIKO</span><span class="b">BLOX</span></div>
+    <div class="robuxpill"><span class="ric"></span><span id="robuxAmt">0</span></div>
+    <button id="avatarBtn" onclick="showView('profile')" title="Profil"></button>
+  </div>
+  <div id="nav">
+    <button id="nav-home" class="sel" onclick="showView('home')">🏠 Beranda</button>
+    <button id="nav-market" onclick="showView('market')">🛒 Pasar</button>
+    <button id="nav-avatar" onclick="showView('avatar')">🧍 Avatar</button>
+    <button id="nav-friends" onclick="showView('friends')">👥 Teman</button>
+  </div>
+  <div id="view-home" class="view"></div>
+  <div id="view-market" class="view hidden"></div>
+  <div id="view-avatar" class="view hidden"></div>
+  <div id="view-friends" class="view hidden"></div>
+  <div id="view-profile" class="view hidden"></div>
+</div>
+
+<!-- ================= PLAYER ================= -->
+<div id="player" class="hidden">
+  <div id="playerBar">
+    <button class="btn" onclick="closePlayer()">⬅ Kembali</button>
+    <b id="playerTitle" style="font-size:16px"></b>
+    <span id="playerScore" style="margin-left:auto;color:#ffd94d;font-weight:900"></span>
+  </div>
+  <div id="stage"></div>
+</div>
+
+<div id="resultModal" class="modal hidden">
+  <div class="modalcard">
+    <div style="font-size:40px">🏆</div>
+    <h3 id="resTitle" style="margin:8px 0 4px">Selesai!</h3>
+    <p id="resText" style="color:#aebadd;margin:4px 0 14px"></p>
+    <button class="btn green" style="width:100%;margin-bottom:8px" onclick="replayGame()">🔁 Main Lagi</button>
+    <button class="btn" style="width:100%" onclick="closeResult()">Kembali ke Beranda</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script>
+/* ================= DATA ================= */
+const DB_KEY = 'rhiko_db_v1';
+function hash(s){ let h1=0xdeadbeef^0, h2=0x41c6ce57^0; const str=String(s); for(let i=0;i<str.length;i++){ const ch=str.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677);} h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909); h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909); return (h2>>>0).toString(16)+'.'+(h1>>>0).toString(16); }
+function loadDB(){ try { return JSON.parse(localStorage.getItem(DB_KEY)) || { accounts:{}, session:null }; } catch(e){ return { accounts:{}, session:null }; } }
+function saveDB(){ localStorage.setItem(DB_KEY, JSON.stringify(DB)); }
+let DB = loadDB();
+function me(){ return DB.session ? DB.accounts[DB.session] : null; }
+function toast(msg, ms){ const t = document.getElementById('toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(t._h); t._h = setTimeout(()=>t.classList.add('hidden'), ms||2400); }
+function fmt(n){ return Math.floor(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function seedFrom(str){ let h=2166136261; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
+
+/* ================= KATALOG ITEM AVATAR ================= */
+const CATS = [ ['hair','💇 Rambut'], ['face','🙂 Wajah'], ['outfit','👕 Baju'], ['hat','🎩 Topi'], ['acc','✨ Aksesoris'] ];
+const ITEMS = [
+ {id:'hair_cepak', cat:'hair', name:'Cepak Rapi', price:0, em:'💇', col:'#3a2a1a', style:'cepak'},
+ {id:'hair_spike', cat:'hair', name:'Spike Keren', price:50, em:'🦔', col:'#20232e', style:'spike'},
+ {id:'hair_ikal', cat:'hair', name:'Ikal Santai', price:75, em:'🌀', col:'#5a3a1a', style:'ikal'},
+ {id:'hair_panjang', cat:'hair', name:'Panjang Lurus', price:100, em:'💁', col:'#7a4a21', style:'panjang'},
+ {id:'hair_mohawk', cat:'hair', name:'Mohawk Merah', price:150, em:'🔥', col:'#d23434', style:'mohawk'},
+ {id:'hair_pirang', cat:'hair', name:'Pirang Spike', price:200, em:'🌟', col:'#e8c85a', style:'spike'},
+ {id:'face_senyum', cat:'face', name:'Senyum', price:0, em:'🙂', style:'senyum'},
+ {id:'face_biasa', cat:'face', name:'Santai', price:25, em:'😌', style:'biasa'},
+ {id:'face_kaget', cat:'face', name:'Kaget', price:50, em:'😲', style:'kaget'},
+ {id:'face_ngantuk', cat:'face', name:'Ngantuk', price:60, em:'😴', style:'ngantuk'},
+ {id:'face_senang', cat:'face', name:'Super Senang', price:75, em:'😄', style:'senang'},
+ {id:'face_marah', cat:'face', name:'Pemarah', price:100, em:'😠', style:'marah'},
+ {id:'outfit_biru', cat:'outfit', name:'Hoodie Biru', price:0, em:'👕', c1:'#2f6fd0', c2:'#33415e', pat:'polos'},
+ {id:'outfit_merah', cat:'outfit', name:'Jaket Merah', price:75, em:'🧥', c1:'#c23434', c2:'#2b2b33', pat:'polos'},
+ {id:'outfit_hijau', cat:'outfit', name:'Kaos Garis Hijau', price:75, em:'👚', c1:'#35a05a', c2:'#5e4633', pat:'garis'},
+ {id:'outfit_hitam', cat:'outfit', name:'Setelan Hitam', price:150, em:'🕴️', c1:'#23242c', c2:'#15151a', pat:'polos'},
+ {id:'outfit_tentara', cat:'outfit', name:'Seragam Tentara', price:300, em:'🪖', c1:'#5c6e3a', c2:'#48542c', pat:'camo'},
+ {id:'outfit_koki', cat:'outfit', name:'Baju Koki', price:250, em:'👨‍🍳', c1:'#eef0f4', c2:'#33415e', pat:'kancing'},
+ {id:'outfit_emas', cat:'outfit', name:'Setelan Emas', price:500, em:'👑', c1:'#e8b62a', c2:'#8a6a10', pat:'garis'},
+ {id:'outfit_pelangi', cat:'outfit', name:'Pelangi Ceria', price:750, em:'🌈', c1:'#b45cff', c2:'#2f6fd0', pat:'pelangi'},
+ {id:'hat_topi', cat:'hat', name:'Topi Merah', price:100, em:'🧢', style:'topi', col:'#d23434'},
+ {id:'hat_pesta', cat:'hat', name:'Topi Pesta', price:60, em:'🎉', style:'pesta', col:'#ff8c1a'},
+ {id:'hat_kucing', cat:'hat', name:'Telinga Kucing', price:200, em:'🐱', style:'kucing', col:'#ff9ecb'},
+ {id:'hat_helm', cat:'hat', name:'Helm Pembalap', price:350, em:'🏍️', style:'helm', col:'#2f6fd0'},
+ {id:'hat_mahkota', cat:'hat', name:'Mahkota Raja', price:1000, em:'👑', style:'mahkota', col:'#f5c542'},
+ {id:'acc_kacamata', cat:'acc', name:'Kacamata Baca', price:120, em:'👓', style:'kacamata'},
+ {id:'acc_hitam', cat:'acc', name:'Kacamata Hitam', price:180, em:'🕶️', style:'hitam'},
+ {id:'acc_tas', cat:'acc', name:'Tas Punggung', price:150, em:'🎒', style:'tas'},
+ {id:'acc_kalung', cat:'acc', name:'Kalung Emas', price:400, em:'📿', style:'kalung'},
+ {id:'acc_sayap', cat:'acc', name:'Sayap Malaikat', price:800, em:'🪽', style:'sayap'}
+];
+function itemById(id){ return ITEMS.find(i=>i.id===id); }
+function defaultEq(){ return { hair:'hair_cepak', face:'face_senyum', outfit:'outfit_biru', hat:null, acc:null }; }
+
+/* ================= GAMBAR AVATAR (SVG) ================= */
+function avatarSVG(eq, seedName){
+  const hair = itemById(eq.hair) || itemById('hair_cepak');
+  const face = itemById(eq.face) || itemById('face_senyum');
+  const out = itemById(eq.outfit) || itemById('outfit_biru');
+  const hat = eq.hat ? itemById(eq.hat) : null;
+  const acc = eq.acc ? itemById(eq.acc) : null;
+  const skin = '#f2c894';
+  let s = '<svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg">';
+  if (acc && acc.style==='sayap') s += '<path d="M34 70 Q6 52 12 30 Q30 44 38 58 Z" fill="#eef4ff" stroke="#b9c8e8"/><path d="M86 70 Q114 52 108 30 Q90 44 82 58 Z" fill="#eef4ff" stroke="#b9c8e8"/>';
+  if (acc && acc.style==='tas') s += '<rect x="30" y="66" width="60" height="44" rx="10" fill="#c9732a"/>';
+  /* kaki & badan */
+  s += '<rect x="40" y="106" width="17" height="36" rx="4" fill="'+out.c2+'"/><rect x="63" y="106" width="17" height="36" rx="4" fill="'+out.c2+'"/>';
+  s += '<rect x="38" y="140" width="19" height="7" rx="3" fill="#222"/><rect x="63" y="140" width="19" height="7" rx="3" fill="#222"/>';
+  s += '<rect x="22" y="64" width="13" height="40" rx="6" fill="'+out.c1+'"/><rect x="85" y="64" width="13" height="40" rx="6" fill="'+out.c1+'"/>';
+  s += '<rect x="22" y="98" width="13" height="10" rx="5" fill="'+skin+'"/><rect x="85" y="98" width="13" height="10" rx="5" fill="'+skin+'"/>';
+  s += '<rect x="35" y="60" width="50" height="50" rx="9" fill="'+out.c1+'"/>';
+  if (out.pat==='garis') s += '<rect x="35" y="74" width="50" height="7" fill="rgba(255,255,255,.35)"/><rect x="35" y="90" width="50" height="7" fill="rgba(255,255,255,.35)"/>';
+  if (out.pat==='pelangi') s += '<rect x="35" y="70" width="50" height="8" fill="#ff5b6a"/><rect x="35" y="80" width="50" height="8" fill="#ffb52e"/><rect x="35" y="90" width="50" height="8" fill="#4fe07a"/>';
+  if (out.pat==='camo') s += '<circle cx="48" cy="76" r="7" fill="rgba(0,0,0,.18)"/><circle cx="70" cy="92" r="8" fill="rgba(0,0,0,.18)"/><circle cx="58" cy="102" r="5" fill="rgba(255,255,255,.12)"/>';
+  if (out.pat==='kancing') s += '<circle cx="60" cy="76" r="2.4" fill="#39406b"/><circle cx="60" cy="88" r="2.4" fill="#39406b"/><circle cx="60" cy="100" r="2.4" fill="#39406b"/>';
+  if (acc && acc.style==='kalung') s += '<path d="M48 62 Q60 78 72 62 L72 68 Q60 84 48 68 Z" fill="#f5c542" stroke="#b8860b"/>';
+  /* kepala */
+  s += '<rect x="38" y="12" width="44" height="44" rx="11" fill="'+skin+'"/>';
+  /* wajah */
+  const ey = 34;
+  if (face.style==='senyum'||face.style==='biasa'){ s += '<circle cx="51" cy="'+ey+'" r="3" fill="#222"/><circle cx="69" cy="'+ey+'" r="3" fill="#222"/>'; }
+  if (face.style==='senang'){ s += '<path d="M46 '+ey+' Q51 '+(ey-5)+' 56 '+ey+'" stroke="#222" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M64 '+ey+' Q69 '+(ey-5)+' 74 '+ey+'" stroke="#222" stroke-width="2.6" fill="none" stroke-linecap="round"/>'; }
+  if (face.style==='kaget'){ s += '<circle cx="51" cy="'+ey+'" r="4" fill="#222"/><circle cx="69" cy="'+ey+'" r="4" fill="#222"/>'; }
+  if (face.style==='ngantuk'){ s += '<path d="M46 '+ey+' L56 '+ey+'" stroke="#222" stroke-width="2.6" stroke-linecap="round"/><path d="M64 '+ey+' L74 '+ey+'" stroke="#222" stroke-width="2.6" stroke-linecap="round"/>'; }
+  if (face.style==='marah'){ s += '<path d="M45 '+(ey-6)+' L56 '+(ey-1)+'" stroke="#222" stroke-width="2.6" stroke-linecap="round"/><path d="M75 '+(ey-6)+' L64 '+(ey-1)+'" stroke="#222" stroke-width="2.6" stroke-linecap="round"/><circle cx="51" cy="'+(ey+3)+'" r="2.6" fill="#222"/><circle cx="69" cy="'+(ey+3)+'" r="2.6" fill="#222"/>'; }
+  if (face.style==='senyum') s += '<path d="M52 44 Q60 51 68 44" stroke="#222" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+  if (face.style==='biasa') s += '<path d="M54 46 L66 46" stroke="#222" stroke-width="2.6" stroke-linecap="round"/>';
+  if (face.style==='senang') s += '<path d="M51 42 Q60 54 69 42 Q60 47 51 42Z" fill="#7a2d1a"/>';
+  if (face.style==='kaget') s += '<ellipse cx="60" cy="46" rx="4.5" ry="5.5" fill="#7a2d1a"/>';
+  if (face.style==='ngantuk') s += '<ellipse cx="60" cy="45" rx="3.4" ry="2.4" fill="#7a2d1a"/><text x="76" y="24" font-size="11" fill="#7fb2ff" font-weight="bold">z</text>';
+  if (face.style==='marah') s += '<path d="M53 49 Q60 44 67 49" stroke="#222" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+  /* rambut */
+  const hc = hair.col;
+  if (hair.style==='cepak') s += '<path d="M38 26 Q38 10 60 10 Q82 10 82 26 L82 20 Q60 12 38 20 Z" fill="'+hc+'"/><rect x="38" y="12" width="44" height="9" rx="4" fill="'+hc+'"/>';
+  if (hair.style==='spike') s += '<path d="M36 24 L42 8 L50 18 L56 4 L64 16 L72 6 L78 18 L84 22 L84 28 L36 28 Z" fill="'+hc+'"/>';
+  if (hair.style==='ikal') s += '<circle cx="44" cy="16" r="8" fill="'+hc+'"/><circle cx="58" cy="11" r="9" fill="'+hc+'"/><circle cx="72" cy="14" r="8" fill="'+hc+'"/><circle cx="81" cy="22" r="6" fill="'+hc+'"/><circle cx="39" cy="24" r="6" fill="'+hc+'"/>';
+  if (hair.style==='panjang') s += '<path d="M36 14 Q60 2 84 14 L86 56 L76 56 L76 22 Q60 14 44 22 L44 56 L34 56 Z" fill="'+hc+'"/>';
+  if (hair.style==='mohawk') s += '<path d="M54 26 L54 2 L66 2 L66 26 Q60 20 54 26Z" fill="'+hc+'"/><rect x="38" y="16" width="44" height="6" fill="'+skin+'"/>';
+  /* topi */
+  if (hat){
+    if (hat.style==='topi') s += '<path d="M36 16 Q60 0 84 16 L84 20 L36 20 Z" fill="'+hat.col+'"/><rect x="30" y="19" width="60" height="5" rx="2.5" fill="'+hat.col+'"/>';
+    if (hat.style==='pesta') s += '<path d="M48 18 L60 -6 L72 18 Z" fill="'+hat.col+'"/><circle cx="60" cy="-6" r="4" fill="#ffd94d"/>';
+    if (hat.style==='kucing') s += '<path d="M40 14 L44 0 L54 10 Z" fill="'+hat.col+'"/><path d="M80 14 L76 0 L66 10 Z" fill="'+hat.col+'"/><path d="M43 11 L45 4 L51 9 Z" fill="#fff"/><path d="M77 11 L75 4 L69 9 Z" fill="#fff"/>';
+    if (hat.style==='helm') s += '<path d="M36 24 Q36 4 60 4 Q84 4 84 24 L84 28 L36 28 Z" fill="'+hat.col+'"/><rect x="44" y="16" width="32" height="8" rx="4" fill="#bfe6ff" opacity=".85"/>';
+    if (hat.style==='mahkota') s += '<path d="M42 16 L46 2 L54 12 L60 0 L66 12 L74 2 L78 16 Z" fill="'+hat.col+'" stroke="#b8860b"/><circle cx="60" cy="10" r="2.6" fill="#ff5b6a"/>';
+  }
+  /* aksesoris wajah */
+  if (acc && acc.style==='kacamata') s += '<g stroke="#222" stroke-width="2.2" fill="rgba(180,230,255,.25)"><rect x="42" y="28" width="15" height="12" rx="3"/><rect x="63" y="28" width="15" height="12" rx="3"/></g><path d="M57 33 L63 33" stroke="#222" stroke-width="2.2"/>';
+  if (acc && acc.style==='hitam') s += '<g fill="#14151c"><rect x="41" y="27" width="16" height="12" rx="4"/><rect x="63" y="27" width="16" height="12" rx="4"/></g><rect x="56" y="31" width="8" height="3" fill="#14151c"/>';
+  s += '</svg>';
+  return s;
+}
+function fakeAvatarFor(name){ /* avatar untuk pemain simulasi dari nama */
+  const sd = seedFrom(name.toLowerCase());
+  const hairs = ['hair_cepak','hair_spike','hair_ikal','hair_panjang','hair_mohawk'];
+  const faces = ['face_senyum','face_biasa','face_senang','face_kaget'];
+  const outs = ['outfit_biru','outfit_merah','outfit_hijau','outfit_hitam'];
+  return { hair: hairs[sd % hairs.length], face: faces[(sd>>3) % faces.length], outfit: outs[(sd>>5) % outs.length], hat: (sd>>7)%3===0 ? 'hat_topi' : null, acc: null };
+}
+
+/* ================= AUTH ================= */
+function authTab(t){
+  document.getElementById('tab-login').classList.toggle('sel', t==='login');
+  document.getElementById('tab-signup').classList.toggle('sel', t==='signup');
+  document.getElementById('form-login').classList.toggle('hidden', t!=='login');
+  document.getElementById('form-signup').classList.toggle('hidden', t!=='signup');
+}
+function validUser(u){ return /^[a-zA-Z0-9_]{3,16}$/.test(u); }
+function doSignup(){
+  const u = document.getElementById('su-user').value.trim();
+  const d = document.getElementById('su-display').value.trim() || u;
+  const p = document.getElementById('su-pass').value;
+  if (!validUser(u)) return toast('Username 3-16 huruf/angka/underscore ya');
+  if (DB.accounts[u.toLowerCase()]) return toast('Username sudah dipakai orang lain 😢');
+  if (p.length < 4) return toast('Password minimal 4 karakter');
+  DB.accounts[u.toLowerCase()] = { user:u, pass:hash('rhiko:'+p), display:d, bio:'', robux:100, inv:['hair_cepak','face_senyum','outfit_biru'], eq:defaultEq(), friends:[], plays:0, created:todayStr(), lastDaily:'' };
+  DB.session = u.toLowerCase(); saveDB();
+  toast('Selamat datang di Rhikoblox, ' + d + '! 🎉 Kamu dapat 100 Robux pembuka.');
+  enterApp();
+}
+function doLogin(){
+  const u = document.getElementById('li-user').value.trim().toLowerCase();
+  const p = document.getElementById('li-pass').value;
+  const a = DB.accounts[u];
+  if (!a) return toast('Akun tidak ditemukan. Daftar dulu yuk!');
+  if (a.pass !== hash('rhiko:'+p)) return toast('Password salah 😖');
+  DB.session = u; saveDB(); enterApp();
+}
+function logout(){ DB.session = null; saveDB(); document.getElementById('app').classList.add('hidden'); document.getElementById('auth').classList.remove('hidden'); }
+function enterApp(){
+  document.getElementById('auth').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  refreshTop(); showView('home');
+}
+function refreshTop(){
+  const a = me(); if (!a) return;
+  document.getElementById('robuxAmt').textContent = fmt(a.robux);
+  document.getElementById('avatarBtn').innerHTML = avatarSVG(a.eq);
+}
+function showView(v){
+  ['home','market','avatar','friends','profile'].forEach(x=>{
+    document.getElementById('view-'+x).classList.toggle('hidden', x!==v);
+    const nb = document.getElementById('nav-'+x); if (nb) nb.classList.toggle('sel', x===v);
+  });
+  if (v==='home') renderHome();
+  if (v==='market') renderMarket(currentCat);
+  if (v==='avatar') renderAvatar();
+  if (v==='friends') renderFriends();
+  if (v==='profile') renderProfile();
+  window.scrollTo(0,0);
+}
+
+/* ================= BERANDA & KATALOG ================= */
+function coverStyle(hue, em){
+  return '<div class="cover" style="background:radial-gradient(120px 60px at 20% 0%, hsla('+hue+',90%,70%,.5), transparent),linear-gradient(135deg, hsl('+hue+',55%,34%), hsl('+((hue+50)%360)+',60%,20%))"><span style="filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))">'+em+'</span><span style="position:absolute;right:-8px;bottom:-14px;font-size:56px;opacity:.16">'+em+'</span></div>';
+}
+function canClaimDaily(a){ return a.lastDaily !== todayStr(); }
+function claimDaily(){ const a = me(); if (!canClaimDaily(a)) return; a.robux += 100; a.lastDaily = todayStr(); saveDB(); refreshTop(); toast('Bonus harian +100 Robux! 🎁'); renderHome(); }
+function renderHome(){
+  const a = me(); const v = document.getElementById('view-home');
+  let h = '<h2 class="sec">Halo, ' + esc(a.display) + '! 👋</h2>';
+  if (canClaimDaily(a)) h += '<div class="card" style="display:flex;align-items:center;gap:10px"><div style="font-size:30px">🎁</div><div style="flex:1"><b>Bonus Harian</b><div style="color:#8d99bd;font-size:13px">Ambil 100 Robux gratis hari ini!</div></div><button class="btn green" onclick="claimDaily()">Ambil</button></div>';
+  h += '<h2 class="sec">⭐ Game Unggulan</h2>';
+  h += '<div class="feat" style="background:linear-gradient(120deg,#3f7a2e,#79a83b 55%,#4a6e2a)"><div style="position:absolute;inset:0;font-size:44px;display:flex;align-items:center;justify-content:center;gap:4px;opacity:.9"><span>🟩</span><span>🟫</span><span>⛏️</span><span>🌲</span><span>🟩</span></div><div class="info"><div class="t">XCraft</div><div class="d">Game blok buatanmu sendiri — dunia tersimpan otomatis!</div></div><button class="playbtn" onclick="openGame(\'xcraft\')">▶ MAIN</button></div>';
+  h += '<div class="feat" style="background:linear-gradient(120deg,#5e1f6e,#b03a8c 55%,#2b2f6e)"><div style="position:absolute;inset:0;font-size:46px;display:flex;align-items:center;justify-content:center;gap:6px"><span>🏎️</span><span>💨</span><span>🏁</span></div><div class="info"><div class="t">Balap Rhiko GP</div><div class="d">Balapan lawan Bot atau lawan Temanmu!</div></div><button class="playbtn" onclick="openGame(\'racing\')">▶ MAIN</button></div>';
+  h += '<h2 class="sec">🎮 Semua Game (' + RGAMES.length + ')</h2><div class="grid">';
+  RGAMES.forEach(g => { h += '<button class="tile" onclick="openGame(\''+g.id+'\')">' + coverStyle(g.hue, g.emoji) + '<div class="nm">'+esc(g.name)+'</div><div class="ds">'+esc(g.desc)+'</div></button>'; });
+  h += '</div><p style="color:#67719a;font-size:12px;text-align:center;margin-top:16px">Setiap main game kamu dapat Robux. Kumpulkan buat belanja di Pasar! 🛒</p>';
+  v.innerHTML = h;
+}
+function esc(s){ return String(s==null?'':s).replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ================= PASAR ================= */
+let currentCat = 'hair';
+function renderMarket(cat){
+  currentCat = cat || currentCat;
+  const a = me(); const v = document.getElementById('view-market');
+  let h = '<h2 class="sec">🛒 Pasar Avatar</h2><p style="color:#8d99bd;margin:0 2px 12px;font-size:13.5px">Beli item buat dandani avatarmu. Robux-mu: <b style="color:#ffd94d">' + fmt(a.robux) + '</b></p>';
+  h += '<div class="cattabs">' + CATS.map(c=>'<button class="'+(currentCat===c[0]?'sel':'')+'" onclick="renderMarket(\''+c[0]+'\')">'+c[1]+'</button>').join('') + '</div>';
+  h += '<div class="shopgrid">';
+  ITEMS.filter(i=>i.cat===currentCat).forEach(i=>{
+    const owned = a.inv.includes(i.id); const equipped = a.eq[i.cat]===i.id;
+    let btn;
+    if (equipped) btn = '<button class="owned" disabled>Terpasang ✓</button>';
+    else if (owned) btn = '<button class="equip" onclick="equipItem(\''+i.id+'\')">Pakai</button>';
+    else btn = '<button onclick="buyItem(\''+i.id+'\')" '+(a.robux < i.price ? 'disabled style="background:#39406b"' : '')+'>Beli • ' + fmt(i.price) + ' R$</button>';
+    h += '<div class="shopitem"><div class="em">'+i.em+'</div><div class="nm">'+esc(i.name)+'</div><div class="pr">' + (owned ? 'Dimiliki' : fmt(i.price)+' Robux') + '</div>' + btn + '</div>';
+  });
+  h += '</div>';
+  v.innerHTML = h;
+}
+function buyItem(id){
+  const a = me(); const i = itemById(id); if (!i || a.inv.includes(id)) return;
+  if (a.robux < i.price) return toast('Robux kurang 😢 Main game dulu buat ngumpulin!');
+  a.robux -= i.price; a.inv.push(id); a.eq[i.cat] = id; saveDB(); refreshTop(); renderMarket(currentCat);
+  toast('Kamu membeli ' + i.name + '! Langsung terpasang 🎉');
+}
+function equipItem(id){ const a = me(); const i = itemById(id); if (!i || !a.inv.includes(id)) return; a.eq[i.cat] = id; saveDB(); refreshTop(); if (!document.getElementById('view-market').classList.contains('hidden')) renderMarket(currentCat); if (!document.getElementById('view-avatar').classList.contains('hidden')) renderAvatar(); }
+
+/* ================= EDITOR AVATAR ================= */
+function renderAvatar(){
+  const a = me(); const v = document.getElementById('view-avatar');
+  let h = '<h2 class="sec">🧍 Editor Avatar</h2>';
+  h += '<div class="card" style="text-align:center"><div style="width:170px;margin:0 auto">' + avatarSVG(a.eq) + '</div><b>' + esc(a.display) + '</b><div style="color:#8d99bd;font-size:13px">@' + esc(a.user) + '</div></div>';
+  CATS.forEach(c=>{
+    h += '<h3 style="margin:14px 2px 8px;font-size:15px">' + c[1] + '</h3><div style="display:flex;gap:8px;flex-wrap:wrap">';
+    if (c[0]==='hat' || c[0]==='acc') h += '<button class="btn" style="'+(a.eq[c[0]]===null?'border-color:#ffd94d;color:#ffd94d':'')+'" onclick="unequip(\''+c[0]+'\')">🚫 Lepas</button>';
+    ITEMS.filter(i=>i.cat===c[0]).forEach(i=>{
+      const owned = a.inv.includes(i.id); const on = a.eq[c[0]]===i.id;
+      if (owned) h += '<button class="btn" style="'+(on?'border-color:#00b06f;background:#123324':'')+'" onclick="equipItem(\''+i.id+'\')">' + i.em + ' ' + esc(i.name) + (on?' ✓':'') + '</button>';
+      else h += '<button class="btn" style="opacity:.55" onclick="showView(\'market\');renderMarket(\''+c[0]+'\')">' + i.em + ' ' + esc(i.name) + ' • ' + fmt(i.price) + ' R$ 🔒</button>';
+    });
+    h += '</div>';
+  });
+  h += '<p style="color:#67719a;font-size:12.5px;margin-top:14px">Item yang belum kamu miliki ada di 🛒 Pasar. Main game buat ngumpulin Robux!</p>';
+  v.innerHTML = h;
+}
+function unequip(cat){ const a = me(); a.eq[cat] = null; saveDB(); refreshTop(); renderAvatar(); }
+
+/* ================= TEMAN ================= */
+function friendData(name){
+  const low = name.toLowerCase(); const acc = DB.accounts[low];
+  if (acc) return { name: acc.user, display: acc.display, eq: acc.eq, real: true };
+  return { name: name, display: name, eq: fakeAvatarFor(name), real: false };
+}
+function renderFriends(){
+  const a = me(); const v = document.getElementById('view-friends');
+  let h = '<h2 class="sec">👥 Teman</h2>';
+  h += '<div class="card"><b>Tambah teman dari nama</b><div style="display:flex;gap:8px;margin-top:9px"><input class="fld" id="fr-search" placeholder="Ketik username temanmu…" style="margin:0;flex:1" maxlength="16"><button class="btn blue" onclick="searchFriend()">Cari</button></div><div id="fr-result" style="margin-top:10px"></div></div>';
+  h += '<h3 style="margin:6px 2px 10px;font-size:15px">Temanmu (' + a.friends.length + ')</h3>';
+  if (!a.friends.length) h += '<p style="color:#8d99bd">Belum ada teman. Cari nama di atas buat nambah teman pertama!</p>';
+  a.friends.forEach(fn=>{
+    const f = friendData(fn);
+    h += '<div class="frow"><div class="av">' + avatarSVG(f.eq) + '</div><div style="flex:1"><b>' + esc(f.display) + '</b><div style="color:#8d99bd;font-size:12.5px">@' + esc(f.name) + '</div></div><button class="btn green" onclick="openGame(\'racing\', \'' + esc(f.name) + '\')">🏁 Balapan</button><button class="btn red" onclick="removeFriend(\'' + esc(f.name) + '\')">✕</button></div>';
+  });
+  v.innerHTML = h;
+}
+function searchFriend(){
+  const a = me(); const q = document.getElementById('fr-search').value.trim();
+  const box = document.getElementById('fr-result');
+  if (q.length < 3) { box.innerHTML = '<span style="color:#ff8b96">Ketik minimal 3 huruf ya.</span>'; return; }
+  if (q.toLowerCase() === a.user.toLowerCase()) { box.innerHTML = '<span style="color:#ff8b96">Itu namamu sendiri 😄</span>'; return; }
+  if (a.friends.some(f=>f.toLowerCase()===q.toLowerCase())) { box.innerHTML = '<span style="color:#ffd94d">@' + esc(q) + ' sudah jadi temanmu.</span>'; return; }
+  const f = friendData(q);
+  box.innerHTML = '<div class="frow" style="margin:0"><div class="av">' + avatarSVG(f.eq) + '</div><div style="flex:1"><b>' + esc(f.display) + '</b><div style="color:#8d99bd;font-size:12.5px">@' + esc(f.name) + (f.real ? ' • Akun Rhikoblox' : ' • Pemain Rhikoblox') + '</div></div><button class="btn green" onclick="addFriend(\'' + esc(f.name) + '\')">➕ Tambah</button></div>';
+}
+function addFriend(name){ const a = me(); if (!a.friends.some(f=>f.toLowerCase()===name.toLowerCase())) a.friends.push(name); saveDB(); toast('@' + name + ' sekarang temanmu! 🎉'); renderFriends(); }
+function removeFriend(name){ const a = me(); a.friends = a.friends.filter(f=>f.toLowerCase()!==name.toLowerCase()); saveDB(); renderFriends(); }
+
+/* ================= PROFIL ================= */
+function renderProfile(){
+  const a = me(); const v = document.getElementById('view-profile');
+  let h = '<h2 class="sec">👤 Profilku</h2>';
+  h += '<div class="card" style="text-align:center"><div style="width:150px;margin:0 auto">' + avatarSVG(a.eq) + '</div>';
+  h += '<div style="font-size:19px;font-weight:900">' + esc(a.display) + '</div><div style="color:#8d99bd">@' + esc(a.user) + '</div>';
+  h += '<div style="margin-top:8px;font-weight:900;color:#ffd94d">⬜ ' + fmt(a.robux) + ' Robux</div></div>';
+  h += '<div class="card"><b>Nama tampilan (display name)</b><div style="display:flex;gap:8px;margin-top:8px"><input class="fld" id="pf-display" value="' + esc(a.display) + '" maxlength="20" style="margin:0;flex:1"><button class="btn blue" onclick="saveDisplay()">Simpan</button></div><div style="color:#8d99bd;font-size:12.5px;margin-top:6px">Display name bisa diganti kapan saja, gratis.</div></div>';
+  h += '<div class="card"><b>Bio</b><textarea class="fld" id="pf-bio" rows="2" maxlength="80" style="margin-top:8px" placeholder="Tulis sesuatu tentang kamu…">' + esc(a.bio||'') + '</textarea><button class="btn blue" onclick="saveBio()">Simpan Bio</button></div>';
+  h += '<div class="card"><b>Ganti username</b><div style="color:#8d99bd;font-size:13px;margin:6px 0 8px">Username adalah nama aslimu buat login. Menggantinya berharga <b style="color:#ffd94d">1.000 Robux</b>.</div><div style="display:flex;gap:8px"><input class="fld" id="pf-newuser" placeholder="Username baru" maxlength="16" style="margin:0;flex:1"><button class="btn" style="background:#8a6a10;border-color:#8a6a10;color:#fff" onclick="changeUsername()">Ganti • 1.000 R$</button></div></div>';
+  h += '<div class="card" style="display:flex;gap:14px;text-align:center"><div style="flex:1"><div style="font-size:19px;font-weight:900">' + a.plays + '</div><div style="color:#8d99bd;font-size:12px">Kali Main</div></div><div style="flex:1"><div style="font-size:19px;font-weight:900">' + a.friends.length + '</div><div style="color:#8d99bd;font-size:12px">Teman</div></div><div style="flex:1"><div style="font-size:19px;font-weight:900">' + a.inv.length + '</div><div style="color:#8d99bd;font-size:12px">Item</div></div></div>';
+  h += '<button class="btn" style="width:100%;margin-bottom:8px" onclick="showView(\'avatar\')">🧍 Edit Avatar</button>';
+  h += '<button class="btn red" style="width:100%" onclick="logout()">🚪 Keluar Akun</button>';
+  h += '<p style="color:#67719a;font-size:12px;text-align:center;margin-top:12px">Bergabung sejak ' + esc(a.created) + '</p>';
+  v.innerHTML = h;
+}
+function saveDisplay(){ const a = me(); const d = document.getElementById('pf-display').value.trim(); if (d.length < 1) return toast('Display name tidak boleh kosong'); a.display = d; saveDB(); toast('Display name diganti jadi ' + d + ' ✓'); renderProfile(); }
+function saveBio(){ const a = me(); a.bio = document.getElementById('pf-bio').value.trim(); saveDB(); toast('Bio tersimpan ✓'); }
+function changeUsername(){
+  const a = me(); const nu = document.getElementById('pf-newuser').value.trim();
+  if (!validUser(nu)) return toast('Username baru 3-16 huruf/angka/underscore ya');
+  if (DB.accounts[nu.toLowerCase()]) return toast('Username itu sudah dipakai 😢');
+  if (a.robux < 1000) return toast('Robux kurang! Butuh 1.000, kamu punya ' + fmt(a.robux));
+  a.robux -= 1000;
+  delete DB.accounts[a.user.toLowerCase()];
+  a.user = nu; DB.accounts[nu.toLowerCase()] = a; DB.session = nu.toLowerCase();
+  saveDB(); refreshTop(); toast('Username resmi diganti jadi @' + nu + ' 🎉'); renderProfile();
+}
+
+/* ================= PEMUTAR GAME ================= */
+let curGame = null, curFriend = null, playEnded = false, raceRAF = null;
+function openGame(id, friendName){
+  curGame = id; curFriend = friendName || null; playEnded = false;
+  const a = me(); if (!a) return;
+  document.getElementById('player').classList.remove('hidden');
+  document.getElementById('playerScore').textContent = '';
+  const stage = document.getElementById('stage'); stage.innerHTML = '';
+  if (id === 'xcraft'){
+    document.getElementById('playerTitle').textContent = '⛏️ XCraft';
+    stage.innerHTML = '<iframe id="xframe" src="xcraft.html"></iframe>';
+    return;
+  }
+  if (id === 'racing'){ document.getElementById('playerTitle').textContent = '🏎️ Balap Rhiko GP'; raceMenu(); return; }
+  const g = RGAMES.find(x=>x.id===id);
+  if (!g) { closePlayer(); return; }
+  document.getElementById('playerTitle').textContent = g.emoji + ' ' + g.name;
+  try { g.play(stage, { end: function(points){ if (!playEnded){ playEnded = true; endWithResult(points, g.name); } } }); }
+  catch(e){ stage.innerHTML = '<p style="padding:20px;color:#ff8b96">Game ini lagi error 🙏 Coba game lain dulu ya.</p>'; }
+}
+function endWithResult(points, gameName){
+  const a = me();
+  points = Math.max(0, Math.min(100, Math.round(points||0)));
+  const reward = points <= 0 ? 0 : Math.max(2, Math.round(points/4));
+  a.robux += reward; a.plays++; saveDB(); refreshTop();
+  document.getElementById('resTitle').textContent = gameName + ' — Selesai!';
+  document.getElementById('resText').innerHTML = 'Skor kamu: <b style="color:#fff">' + points + '</b> poin<br>Hadiah: <b style="color:#ffd94d">+' + reward + ' Robux</b> ⬜';
+  document.getElementById('resultModal').classList.remove('hidden');
+}
+function closeResult(){ document.getElementById('resultModal').classList.add('hidden'); closePlayer(); }
+function replayGame(){ document.getElementById('resultModal').classList.add('hidden'); const id = curGame, f = curFriend; closePlayer(); setTimeout(()=>openGame(id, f), 60); }
+function closePlayer(){
+  if (raceRAF) { cancelAnimationFrame(raceRAF); raceRAF = null; }
+  raceState = null;
+  const stage = document.getElementById('stage'); stage.innerHTML = '';
+  document.getElementById('player').classList.add('hidden');
+  document.getElementById('resultModal').classList.add('hidden');
+  if (me()) showView('home');
+}
+
+/* ================= BALAP RHIKO GP ================= */
+let raceState = null;
+function raceMenu(){
+  const stage = document.getElementById('stage'); const a = me();
+  let h = '<div style="padding:22px;text-align:center"><div style="font-size:52px">🏎️💨</div><h2>Balap Rhiko GP</h2><p style="color:#8d99bd">Balapan sampai 1.000 meter! Hindari mobil lain di jalan.<br>Geser mobilmu dengan menyentuh & menyeret layar.</p>';
+  h += '<button class="btn green" style="width:100%;max-width:320px;padding:14px;font-size:16px;margin-bottom:10px" onclick="startRace(null)">🤖 Lawan Bot</button><br>';
+  if (curFriend) h += '<button class="btn blue" style="width:100%;max-width:320px;padding:14px;font-size:16px" onclick="startRace(\'' + esc(curFriend) + '\')">👥 Lawan ' + esc(curFriend) + '</button>';
+  else if (a.friends.length) { h += '<div style="margin:8px 0 4px;color:#aebadd;font-weight:800">👥 Lawan Teman:</div>'; a.friends.forEach(f=>{ h += '<button class="btn blue" style="margin:4px" onclick="startRace(\'' + esc(f) + '\')">🏁 ' + esc(f) + '</button>'; }); }
+  else h += '<p style="color:#67719a;font-size:13px">Belum ada teman — tambah teman dulu di menu 👥 Teman buat mode lawan teman.</p>';
+  h += '</div>';
+  stage.innerHTML = h;
+}
+function startRace(friendName){
+  const stage = document.getElementById('stage');
+  const a = me();
+  const rivals = [];
+  if (friendName){
+    const f = friendData(friendName); const sd = seedFrom(friendName.toLowerCase());
+    rivals.push({ name: f.display, eq: f.eq, dist: 0, base: 8.6 + (sd % 90)/100, col:'#ff8c1a' });
+    rivals.push({ name: 'BotPenyela', eq: null, dist: 0, base: 8.3, col:'#b45cff' });
+  } else {
+    [['BotKilay',8.4,'#ff5b6a'],['TurboTom',8.8,'#ffd94d'],['NgebutNia',9.0,'#4fe07a']].forEach(b=>rivals.push({ name:b[0], eq:null, dist:0, base:b[1], col:b[2] }));
+  }
+  stage.innerHTML = '<canvas id="raceCv" style="width:100%;height:100%;display:block;touch-action:none"></canvas><div id="raceHud" style="position:absolute;top:8px;left:8px;right:8px;background:rgba(10,12,20,.72);border:1px solid #39406b;border-radius:11px;padding:8px 11px;font-size:13px"></div>';
+  const cv = document.getElementById('raceCv'); const ctx = cv.getContext('2d');
+  const W = stage.clientWidth, H = stage.clientHeight; cv.width = W; cv.height = H;
+  const roadW = Math.min(W*0.86, 430), roadX = (W-roadW)/2, laneW = roadW/3;
+  raceState = { t:0, dist:0, speed:0, x: W/2, targetX: W/2, traffic: [], spawn: 0, over:false, rivals: rivals, near: 0, start: performance.now() };
+  const R = raceState;
+  function carAt(x, y, w, h, col, flip){
+    ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(x, y+h*0.52, w*0.55, h*0.5, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = col; roundRect(ctx, x-w/2, y-h/2, w, h, 8); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.85)'; roundRect(ctx, x-w*0.3, y-h*0.18, w*0.6, h*0.3, 5); ctx.fill();
+    ctx.fillStyle = '#14151c'; [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(p=>{ ctx.beginPath(); ctx.arc(x+p[0]*w*0.46, y+p[1]*h*0.36, w*0.11, 0, 7); ctx.fill(); });
+  }
+  function roundRect(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+  cv.addEventListener('pointermove', e=>{ const r = cv.getBoundingClientRect(); R.targetX = e.clientX - r.left; });
+  cv.addEventListener('pointerdown', e=>{ const r = cv.getBoundingClientRect(); R.targetX = e.clientX - r.left; });
+  let last = performance.now();
+  function frame(now){
+    if (!raceState || R.over) return;
+    const dt = Math.min(0.05, (now-last)/1000); last = now; R.t += dt;
+    R.speed = Math.min(13.5, R.speed + dt*2.2);
+    R.dist += R.speed * dt * 6.2;
+    R.x += (R.targetX - R.x) * Math.min(1, dt*10);
+    R.x = Math.max(roadX+22, Math.min(roadX+roadW-22, R.x));
+    /* lalu lintas */
+    R.spawn -= dt;
+    if (R.spawn <= 0 && R.t > 1){ R.spawn = 0.55 + Math.random()*0.7; const lane = Math.floor(Math.random()*3); R.traffic.push({ x: roadX + laneW*(lane+0.5), y: -60, sp: 3.5 + Math.random()*2.5, col: ['#ffd94d','#ff5b6a','#4fe07a','#eef1ff'][Math.floor(Math.random()*4)], passed:false }); }
+    R.traffic.forEach(t=>{ t.y += (R.speed - t.sp + 5.5) * dt * 9; });
+    R.traffic = R.traffic.filter(t=>t.y < H+80);
+    R.traffic.forEach(t=>{
+      const py = H - 110;
+      if (!t.passed && t.y > py + 46){ t.passed = true; if (Math.abs(t.x - R.x) < 58) R.near++; }
+      if (Math.abs(t.x - R.x) < 37 && Math.abs(t.y - py) < 62 && !t.hit){ t.hit = true; R.speed = Math.max(3, R.speed - 5); R.crashT = 0.35; toast('💥 Tabrakan! Kecepatan turun'); }
+    });
+    /* rival */
+    R.rivals.forEach(rv=>{ rv.dist += (rv.base + Math.sin(R.t*0.7 + rv.base*10)*0.55) * dt * 6.2; });
+    /* gambar */
+    ctx.fillStyle = '#20242f'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = '#2d6a35'; ctx.fillRect(0,0,roadX,H); ctx.fillRect(roadX+roadW,0,W-roadX-roadW,H);
+    ctx.fillStyle = '#3a3f4a'; ctx.fillRect(roadX,0,roadW,H);
+    ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 4; ctx.setLineDash([26,30]); ctx.lineDashOffset = (R.dist*3) % 56;
+    for (let i=1;i<3;i++){ ctx.beginPath(); ctx.moveTo(roadX+laneW*i, 0); ctx.lineTo(roadX+laneW*i, H); ctx.stroke(); }
+    ctx.setLineDash([]);
+    R.traffic.forEach(t=>carAt(t.x, t.y, 40, 64, t.col));
+    if (R.crashT > 0){ R.crashT -= dt; ctx.fillStyle = 'rgba(255,60,60,.22)'; ctx.fillRect(0,0,W,H); }
+    carAt(R.x, H-110, 42, 66, '#00a2ff');
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'; ctx.fillText(a.display, R.x, H-110-44);
+    /* HUD */
+    const all = [{name:a.display+' (Kamu)', dist:R.dist, col:'#00a2ff'}].concat(R.rivals);
+    const sorted = all.slice().sort((p,q)=>q.dist-p.dist);
+    const pos = sorted.findIndex(p=>p.col==='#00a2ff') + 1;
+    let hud = '<b>Posisi ' + pos + '/' + all.length + '</b> • Jarakmu: <b>' + Math.floor(R.dist) + 'm</b> / 1000m • Nyaris: ' + R.near;
+    all.forEach(p=>{ const pct = Math.min(100, p.dist/10); hud += '<div style="display:flex;align-items:center;gap:6px;margin-top:3px"><span style="width:86px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:'+p.col+'">' + esc(p.name) + '</span><div style="flex:1;height:8px;background:#12141f;border-radius:99px"><div style="height:8px;border-radius:99px;background:'+p.col+';width:'+pct+'%"></div></div></div>'; });
+    document.getElementById('raceHud').innerHTML = hud;
+    /* selesai */
+    const winner = all.find(p=>p.dist >= 1000);
+    if (winner || R.t > 75){
+      R.over = true;
+      let pts;
+      if (winner && winner.col === '#00a2ff') pts = 100;
+      else if (winner) pts = Math.round(35 + (R.dist/1000)*35);
+      else pts = Math.round((R.dist/1000)*80);
+      pts = Math.min(100, pts + Math.min(10, R.near));
+      const place = sorted.findIndex(p=>p.col==='#00a2ff') + 1;
+      setTimeout(()=>{ if (!playEnded){ playEnded = true; endWithResult(pts, 'Balap Rhiko GP — Posisi ' + place); } }, 500);
+      ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 30px Arial'; ctx.fillText(winner ? (winner.col==='#00a2ff' ? '🏆 KAMU MENANG!' : esc(winner.name) + ' MENANG') : '⏰ WAKTU HABIS', W/2, H/2);
+      return;
+    }
+    raceRAF = requestAnimationFrame(frame);
+  }
+  raceRAF = requestAnimationFrame(frame);
+}
+
+/* ================= BOOT ================= */
+function boot(){ if (DB.session && DB.accounts[DB.session]) enterApp(); }
+</script>
+<script src="games_a.js"></script>
+<script src="games_b.js"></script>
+<script src="games_c.js"></script>
+<script>boot();</script>
+</body>
+</html>
